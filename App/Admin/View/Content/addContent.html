@@ -1,0 +1,49 @@
+<div class="altCategory pop-container">
+    <h2>add文章</h2>
+    <form>
+        <div class="opt-nav"><label>标题</label><input type="text" name="title" id="title" class="opt-input" maxlength="64"/></div>
+        <div class="opt-nav"><label>文章内容</label>
+            <!-- 加载编辑器的容器 里面写你的初始化内容-->
+            <textarea id="container" name="content">{$list.content}</textarea>
+        </div>
+        <div class="opt-nav"><input type="button" name="submit" value="添加" class="button sure"/></div>
+    </form>
+</div>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PUBLIC__/UEditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/UEditor/ueditor.all.js"></script>
+
+<script type="application/javascript">
+    //实例化编辑器
+    var editor = UE.getEditor('container', {
+        UEDITOR_HOME_URL : '/Public/UEditor/',//为编辑器实例添加一个路径，这个不能被注释
+        serverUrl : "/Public/UEditor/php/controller.php", // 服务器统一请求接口路径
+        initialFrameWidth : 960,
+        initialFrameHeight : 400
+    });
+    $(document).ready(function(){
+        $('form .sure').click(function(){
+            var _title = $('#title').val(),
+                    _content = editor.getContent();//获取html内容
+            if(_title.trim == '' && _content.trim() ==''){
+                alert('标题不能为空！');
+                return false;
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{:U('Admin/Content/addContent')}",
+                    data: {title:_title,content:_content},
+                    success: function(result){
+                        if(result.success){
+                            alert('添加成功！');
+                            $('#main .content').load("{:U('Admin/Content/index')}");
+                        } else {
+                            alert(result.msg);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,84 @@
+<html>
+<head>
+    <title>alter sports type</title>
+</head>
+<body>
+    <div class="altCategory pop-container">
+        <h2>add类型</h2>
+        <form>
+            <div class="opt-nav">
+                <label>父类型</label>
+                <select name="pCategory" class="opt-input">
+                    <if condition="pid eq 0">
+                        <option value="0" selected="selected">大类</option>
+                        <else/>
+                        <option value="0">大类</option>
+                    </if>
+                    <volist name="list" id="vo">
+                        <if condition="$vo['id'] eq $pid">
+                            <option value="{$vo.id}" selected="selected">{$vo.name}</option>
+                            <else/>
+                            <option value="{$vo.id}">{$vo.name}</option>
+                        </if>
+                    </volist>
+                </select>
+            </div>
+            <div class="opt-nav"><label>类型名</label><input type="text" name="categoryName" class="opt-input" maxlength="64"/></div>
+            <div class="opt-nav"><label>备注</label><input type="text" name="remark" class="opt-input" maxlength="64"/></div>
+            <div class="opt-nav"><input type="button" name="submit" value="添加" class="button sure"/></div>
+        </form>
+    </div>
+</body>
+<script type="application/javascript">
+    $(document).ready(function(){
+        $('form .sure').click(function(){
+            var _pid = $('form select').val(),
+                    _name = $('form input\[name="categoryName"\]').val(),
+                    _remark = $('form input\[name="remark"\]').val();
+            if(_name.trim == ''){
+                alert('类型名不能为空！');
+                return false;
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{:U('Admin/Category/addCategory')}",
+                    data: {pid:_pid,name:_name,remark:_remark},
+                    success: function(result){
+                        if(result.success){
+                            alert('添加成功！');
+                            $('#main .content').load("{:U('Admin/Category/index')}");
+                        } else {
+                            alert(result.msg);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+<style>
+    h2{
+        border-bottom: 1px solid #000;
+    }
+    .altCategory{
+        padding-top: 20px;
+        margin: 0 auto;
+    }
+    .opt-nav{
+        display: block;
+        width: 300px;
+        height: auto;
+        margin: 18px auto;
+        overflow: hidden;
+    }
+    .opt-nav label{
+        display: block;
+        width: 100px;
+        float: left;
+        margin-right: 20px;
+    }
+    .opt-nav .opt-input{
+        width: 150px;
+    }
+</style>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- container-fluid -->
+<head>
+    <block name="title">
+        <title>MangoLau Admin</title>
+    </block>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <block name="baseCss">
+        <link rel="stylesheet" href="__PUBLIC__/Admin/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Admin/css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Admin/css/unicorn.main.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Admin/css/unicorn.grey.css" class="skin-color" />
+    </block>
+    <block name="css"></block>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+
+<div id="header">
+    <h1><a href="{:U('Index/index')}">MangoLau Admin</a></h1>
+</div>
+
+<!--<div id="search">
+    <input type="text" placeholder="Search here..." /><button type="submit" class="tip-right" title="Search"><i class="icon-search icon-white"></i></button>
+</div>-->
+<div id="user-nav" class="navbar navbar-inverse">
+    <ul class="nav btn-group">
+        <li class="btn btn-inverse"><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
+        <li class="btn btn-inverse"><a title="" href="{:U('Public/logout')}"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+    </ul>
+</div>
+
+<block name="sidebar">
+    <div id="sidebar">
+        <a href="{:U('Index/index')}" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+        <ul>
+            <li class="active"><a href="{:U('Index/index')}"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
+            <li class="submenu">
+                <a href="#"><i class="icon icon-th-list"></i> <span>节点管理</span> <span class="label">2</span></a>
+                <ul>
+                    <li><a href="{:U('Node/index')}">节点列表</a></li>
+                    <li><a href="{:U('Node/addNode')}">节点添加</a></li>
+                </ul>
+            </li>
+            <li class="submenu">
+                <a href="#"><i class="icon icon-th-list"></i> <span>角色管理</span> <span class="label">2</span></a>
+                <ul>
+                    <li><a href="{:U('Role/index')}">角色列表</a></li>
+                    <li><a href="{:U('Role/addRole')}">角色添加</a></li>
+                </ul>
+            </li>
+            <li class="submenu">
+                <a href="#"><i class="icon icon-th-list"></i> <span>用户管理</span> <span class="label">2</span></a>
+                <ul>
+                    <li><a href="{:U('User/index')}">用户列表</a></li>
+                    <li><a href="{:U('User/addUser')}">用户添加</a></li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</block>
+
+<div id="style-switcher">
+    <i class="icon-arrow-left icon-white"></i>
+    <span>Style:</span>
+    <a href="#grey" style="background-color: #555555;border-color: #aaaaaa;"></a>
+    <a href="#blue" style="background-color: #2D2F57;"></a>
+    <a href="#red" style="background-color: #673232;"></a>
+</div>
+
+<block name="content">
+    <div id="content">
+        <div id="content-header">
+            <h1>{$h}</h1>
+        </div>
+        <div id="breadcrumb">
+            <a href="{:U('Index/index')}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>
+            <volist name="breadcrumb" id="v">
+                <a href="{$v.link}" class="current">{$v.title}</a>
+            </volist>
+        </div>
+        <block name="container">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span12 center" style="text-align: center;">
+                        <ul class="stat-boxes">
+                            <li>
+                                <div class="left peity_bar_good"><span>2,4,9,7,12,10,12</span>+20%</div>
+                                <div class="right">
+                                    <strong>36094</strong>
+                                    Visits
+                                </div>
+                            </li>
+                            <li>
+                                <div class="left peity_bar_neutral"><span>20,15,18,14,10,9,9,9</span>0%</div>
+                                <div class="right">
+                                    <strong>1433</strong>
+                                    Users
+                                </div>
+                            </li>
+                            <li>
+                                <div class="left peity_bar_bad"><span>3,5,9,7,12,20,10</span>-50%</div>
+                                <div class="right">
+                                    <strong>8650</strong>
+                                    Orders
+                                </div>
+                            </li>
+                            <li>
+                                <div class="left peity_line_good"><span>12,6,9,23,14,10,17</span>+70%</div>
+                                <div class="right">
+                                    <strong>8650</strong>
+                                    Orders
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </block>
+    </div>
+</block>
+
+
+<block name="baseJs">
+    <script src="__PUBLIC__/Admin/js/jquery.min.js"></script>
+    <script src="__PUBLIC__/Admin/js/jquery.ui.custom.js"></script>
+    <script src="__PUBLIC__/Admin/js/bootstrap.min.js"></script>
+    <script src="__PUBLIC__/Admin/js/unicorn.js"></script>
+</block>
+<block name="js"></block>
+</body>
+</html>

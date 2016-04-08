@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- container-fluid -->
+<head>
+    <title>{$title|default="sports clock"}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<div id="header">
+    <a href="{:U('Admin/Index/index')}"><img src="__PUBLIC__/logo.jpg" class="logo"></a>
+    <span class="loginer">你好：{$user}</span>
+</div>
+<div id="main">
+    <div class="left">
+        <ul>
+            <volist name="menuLinks" id="vo">
+                <li class="first-link" linkname="{$vo.name}">{$vo.title}</li>
+                <notempty name="vo[childs]">
+                    <li linkpid="{$vo.name}" class="childs-link">
+                        <ul>
+                            <volist name="vo[childs]" id="vv">
+                                <li class="second-link" linkName="{$vv.name}">{$vv.title}</li>
+                            </volist>
+                        </ul>
+                    </li>
+                </notempty>
+            </volist>
+        </ul>
+    </div>
+    <div class="content">
+        <table class="tab">
+            <caption>{$captionTitle}</caption>
+            <volist name="info" id="vo">
+                <tr>
+                    <td>{$key}</td>
+                    <td>{$vo}</td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+</div>
+<div id="bottom">
+    <strong>copyright &copy; MangoLau</strong>
+</div>
+</body>
+<script type="application/javascript" src="__PUBLIC__/Js/jquery.min.js"></script>
+<script type="application/javascript">
+$(document).ready(function(){
+    var activeFirstLink,activeSecondLink;
+    $('#main .left ul').on('click', '.first-link', function(){
+        var linkname = $(this).attr('linkname');
+        if(linkname != activeFirstLink){
+            $('#main .left ul .childs-link').hide();
+            $('#main .left ul .first-link,#main .left ul .second-link').removeClass('linkactive');
+            $(this).addClass('linkactive');
+            if($(this).next().attr('linkpid') == linkname){
+                $(this).next().show();
+            }
+            activeFirstLink = linkname;
+            activeSecondLink = '';
+        }
+    });
+    $('#main .left ul .childs-link').on('click', '.second-link', function(){
+        var linkname = $(this).attr('linkname'),
+                link,
+                pageArr = new Array();
+        if(linkname != activeSecondLink){
+            $('#main .content').html('');
+            $('#main .left ul .second-link').removeClass('linkactive');
+            $(this).addClass('linkactive');
+            activeSecondLink = linkname;
+            link = 'http://'+window.location.host+'?m=Admin&c='+$(this).parents('.childs-link').prev('.first-link').attr('linkname')+'&a='+linkname;
+            $('#main .content').load(link);
+            pageArr[linkname] = $('#main .content').html();
+
+        }
+    });
+});
+</script>
+</html>

@@ -1,0 +1,161 @@
+<style>
+    .pop-altCategory{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -110px;
+        margin-left: -250px;
+        display: none;
+    }
+    .altCategory{
+        width: 500px;
+        height: 200px;
+        background: #eee;
+    }
+    .opt-nav{
+        display: block;
+        width: 300px;
+        height: auto;
+        margin: 18px auto;
+        overflow: hidden;
+    }
+    .opt-nav label{
+        display: block;
+        width: 100px;
+        float: left;
+        margin-right: 20px;
+    }
+    .opt-nav .opt-input{
+        width: 150px;
+    }
+    .pop-delCategory{
+        width: 500px;
+        height: 200px;
+        background: #eee;
+        margin: 100px auto;
+        z-index: 99;
+        display: none;
+    }
+    .pop-delCategory p{
+        width: 80%;
+        line-height: 150px;
+        margin: 0 auto;
+    }
+    .pop-delCategory p span{
+        font-weight: bold;
+    }
+    .pop-delCategory .choose{
+        width: 40%;
+        margin: 0 auto;
+    }
+</style>
+<h2>类型列表</h2>
+<table class="sportstype">
+    <caption>{$captionTitle}</caption>
+    <tr><th>id</th><th>类型名</th><th>操作</th></tr>
+    <volist name="list" id="vo">
+        <tr><td>{$vo.id}</td><td><span class="catName">{$vo.pad}{$vo.name}</span></td><td><span class="act alter" title="{$vo.name}" remark="{$vo.remark}" pid="{$vo.pid}" actid="{$vo.id}">修改</span>｜<span class="act add" title="{$vo.name}" actid="{$vo.id}">添加子类</span>｜<span class="act del" title="{$vo.name}" actid="{$vo.id}">删除</span></td></tr>
+    </volist>
+</table>
+<div class="altCategory pop-altCategory">
+    <form>
+        <div class="opt-nav">
+            <label>父类型</label>
+            <select name="pCategory" class="opt-input">
+                <option value="0" selected="selected">大类</option>
+                <volist name="list" id="vo">
+                    <option value="{$vo.id}">{$vo.name}</option>
+                </volist>
+            </select>
+        </div>
+        <div class="opt-nav"><label>类型名</label><input type="text" name="categoryName" class="opt-input" maxlength="64"/></div>
+        <div class="opt-nav"><label>备注</label><input type="text" name="remark" class="opt-input" maxlength="64"/></div>
+        <div class="opt-nav"><input type="button" name="submit" class="button sure" value="修改"/><input type="button" value="取消" class="button cancel"/></div>
+    </form>
+</div>
+<div class="pop-delCategory">
+    <p>删除类型:<span>足球</span>吗？</p>
+    <div class="choose">
+        <input type="button" class="sure button" value="确定"/>
+        <input type="button" class="cancel button" value="取消"/>
+    </div>
+</div>
+
+<script type="application/javascript">
+    $(document).ready(function(){
+        $('.alter').on('click',function(){
+            var actid = $(this).attr('actid'),
+                    _pid = $(this).attr('pid'),
+                    _name = $(this).attr('title'),
+                    _remark = $(this).attr('remark');
+            $('.pop-altCategory select').find('option').each(function(){
+                if($(this).val() == _pid){
+                    $(this).attr('selected','selected');
+                }
+            });
+            $('.pop-altCategory input\[name="categoryName"\]').val(_name);
+            $('.pop-altCategory input\[name="remark"\]').val(_remark);
+            $('.pop-altCategory').show(function(){
+                $('.pop-altCategory .sure').click(function(){
+                    var new_pid = $('.pop-altCategory select').val(),
+                            new_name = $('.pop-altCategory input\[name="categoryName"\]').val(),
+                            new_remark = $('.pop-altCategory input\[name="remark"\]').val();
+                    if(new_name.trim==''){
+                        alert('类型名不能为空！');
+                        return false;
+                    }
+                    if(_pid!=new_pid || _name!=new_name || _remark!=new_remark){
+                        $.ajax({
+                            type: "POST",
+                            url: "{:U('Admin/Category/alterCategory')}",
+                            data: {id:actid,pid:new_pid,name:new_name,remark:new_remark},
+                            success: function(result){
+                                if(result.success){
+                                    alert('修改成功！');
+                                    $('#main .content').html('').load("{:U('Admin/Category/index')}");
+                                } else {
+                                    alert(result.msg);
+                                }
+                            }
+                        });
+                    }else{
+                        alert('没有修改！');
+                    }
+                });
+                $('.pop-altCategory .cancel').click(function(){
+                    $(this).parents('.pop-altCategory').hide();
+                });
+            });
+        });
+        
+        $('.add').on('click', function(){
+	    var pid = $(this).attr('actid'),
+	    url = "{:U('Admin/Category/addCategory')}";
+	    $('#main .content').html('').load(url, {pid:pid});
+        });
+
+        $('.del').on('click',function(){
+            $('.pop-delCategory p span').text($(this).attr('title'));
+            var actid = $(this).attr('actid');
+            $('.pop-delCategory').show(function(){
+                $('.pop-delCategory .sure').click(function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "{:U('Admin/Category/delCategory')}",
+                        data: "{id:"+actid+"}",
+                        success: function(result){
+                            if(result.success){
+                                alert('删除成功！');
+                            } else {
+                                alert(result.msg);
+                            }
+                        }
+                    });
+                });
+                $('.pop-delCategory .cancel').click(function(){
+                    $(this).parents('.pop-delCategory').hide();
+                });
+            });
+        });
+    });
+</script>
