@@ -1,5 +1,5 @@
 <?php
-namespace Home\Controller;
+namespace Admin\Controller;
 use Think\Controller;
 class RoleController extends Controller {
     //角色列表
@@ -12,6 +12,7 @@ class RoleController extends Controller {
         $list = $role->order('id')->limit($Page->firstRow.','.$Page->listRows)->select();
         $this->assign('list',$list);// 赋值数据集
         $this->assign('page',$show);// 赋值分页输出
+//        print_r($list);die;
         $this->display();
     }
 

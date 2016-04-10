@@ -1,5 +1,5 @@
 <?php
-namespace Home\Controller;
+namespace Admin\Controller;
 use Think\Controller;
 class UserController extends Controller{
     //用户列表
@@ -11,30 +11,7 @@ class UserController extends Controller{
         $show       = $Page->show();// 分页显示输出
         // 进行分页数据查询 注意limit方法的参数要使用Page类的属性
         $arrs = $user->field('password',true) -> relation(true) ->limit($Page->firstRow.','.$Page->listRows)->select();
-        $list = array();
-        foreach($arrs as $arr){
-            $where_department['id'] = $arr['department_id'];
-            $dept = M('Department')->where($where_department)->find();
-            $arr['department_id'] = $dept['name'];
-            $where_position['id'] = $arr['position_id'];
-            $pos = M('Position') ->where($where_position) ->find();
-            $arr['position_id'] = $pos['name'];
-            $list[] = array(
-                "id"=>$arr['id'],
-                "username"=>$arr['username'],
-                "login_count"=>$arr['login_count'],
-                "register_time"=>$arr['register_time'],
-                "last_login_time"=>$arr['last_login_time'],
-                "last_login_ip"=>$arr['last_login_ip'],
-                "department_id"=>$arr['department_id'],
-                "position_id"=>$arr['position_id'],
-                "email"=>$arr['email'],
-                "phone"=>$arr['phone'],
-                "status"=>$arr['status'],
-                "role"=>$arr['role'],
-            );
-        }
-        $this->assign('list',$list);// 赋值数据集
+        $this->assign('list',$arrs);// 赋值数据集
         $this->assign('page',$show);// 赋值分页输出
         $this->display();
     }
@@ -61,16 +38,10 @@ class UserController extends Controller{
                     }
                     $Role_user = M('Role_user');
                     $Role_user ->addAll($data);
-                    $this->success('添加成功！','__URL__/index');
+                    $this->success('添加成功！', U('index'));
                 }
             }
         }
-
-        $department = D('Department');
-        $arrs = $department->where("status=1") ->field('id,pid,name') ->select();
-        $arrs = indent_merge($arrs);
-        $this->assign('p_depart',$arrs);
-        $this->position = M('Position')->field('id,name')->order('sort desc') ->select();
         $this->role = M('Role') ->field('id,title') -> select();
         $this->display();
     }
@@ -118,15 +89,6 @@ class UserController extends Controller{
     //编辑用户
     public function updateUser() {
         $user = D('User');
-        $department = M('Department');
-        if (IS_GET) {
-            $arrs = $department -> getField('id,pid,name');
-            $arrs = indent_merge($arrs);
-            $where['id'] = $_GET['id'];
-            $this ->list = $user ->where($where) ->find();
-            $this->assign('p_depart',$arrs);
-            $this->display();
-        }
         if (IS_POST) {
             if (!$user->create()) {
                 $this->error($user->getError());
@@ -139,6 +101,7 @@ class UserController extends Controller{
                 }
             }
         }
+        $this->display();
     }
 
     //修改密码

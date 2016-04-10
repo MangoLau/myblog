@@ -3,7 +3,6 @@ namespace Admin\Controller;
 use Think\Controller;
 class IndexController extends Controller {
     public function index(){
-        $menuLinks = menuLinks();
         $info = array(
             '操作系统'=>PHP_OS,
             '运行环境'=>$_SERVER["SERVER_SOFTWARE"],
@@ -19,11 +18,16 @@ class IndexController extends Controller {
             'magic_quotes_gpc'=>(1===get_magic_quotes_gpc())?'YES':'NO',
             'magic_quotes_runtime'=>(1===get_magic_quotes_runtime())?'YES':'NO',
         );
+//        print_r($info);die;
+        $breadcrumb = array(
+            array(
+                'link'  => U('Home/Index/index'),
+                'title' => '首页'
+            ),
+        );
+        $this->assign('breadcrumb', $breadcrumb);
+        $this->assign('h', 'MangoLau');
         $this->assign('info',$info);
-        $this->assign('user', 'admin');
-        $this->assign('menuLinks', $menuLinks);
-        $this->assign('title', '运动打卡');
-        $this->assign('captionTitle', '系统信息');
         $this->display();
     }
 }

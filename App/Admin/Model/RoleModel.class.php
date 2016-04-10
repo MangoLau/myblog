@@ -1,5 +1,5 @@
 <?php
-namespace Home\Model;
+namespace Admin\Model;
 use Think\Model;
 class RoleModel extends Model{
 	protected $_validate = array(

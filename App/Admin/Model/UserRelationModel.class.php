@@ -2,7 +2,7 @@
 /*
  *用户与角色关联模型
  */
-namespace Home\Model;
+namespace Admin\Model;
 use Think\Model\RelationModel;
 class UserRelationModel extends RelationModel {
 	//定义主表名称

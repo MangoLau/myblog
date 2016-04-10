@@ -1,18 +1,22 @@
 <?php
-namespace Home\Controller;
+namespace Admin\Controller;
 use Think\Controller;
 class NodeController extends Controller {
 
-    //节点列表
+    /**
+     * 节点列表
+     */
     public function index(){
-        $node = M('Node');
-        $arrs = $node->field('id,name,title,pid')->order('sort')->select();
+        $arrs = M('Node')->field('id,name,title,pid')->order('sort')->select();
+//        print_r($arrs);die;
         $arrs = node_merge($arrs);
         $this->assign('list',$arrs);
         $this->display();
     }
 
-    //添加节点
+    /**
+     * 添加节点
+     */
     Public function addNode(){
         $this->pid = isset($_GET['pid']) ? $_GET['pid'] : 0;
         $this->level = isset($_GET['level']) ? $_GET['level'] : 1;
@@ -38,7 +42,7 @@ class NodeController extends Controller {
                 // 验证通过 可以进行其他数据操作
                 $ok = $node->add();
                 if ($ok) {
-                    $this->success("添加成功！",'__URL__/index');
+                    $this->success("添加成功！",U('Node/index'));
                 } else {
                     $this->error("添加失败！");
                 }
@@ -102,4 +106,5 @@ class NodeController extends Controller {
             $this->error('删除失败');
         }
     }
+
 }

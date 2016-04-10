@@ -1,26 +1,30 @@
-<h2>文章列表</h2>
-<table class="sportstype">
-    <caption>{$captionTitle}</caption>
-    <tr>
-        <th>id</th>
-        <th>文章</th>
-        <th>状态</th>
-        <th>创建时间</th>
-        <th>修改时间</th>
-        <th>操作</th>
-    </tr>
-    <volist name="list" id="vo">
-        <tr>
-            <td>{$vo.id}</td>
-            <td><a href="javascript:void(0);" class="catName" title="{$vo.title}">{$vo.title}</a></td>
-            <td><span class="catName">{$vo.status}</span></td>
-            <td><span class="catName">{$vo.created}</span></td>
-            <td><span class="catName">{$vo.modified}</span></td>
-            <td><span class="act alter" title="{$vo.title}" actid="{$vo.id}">修改</span>｜<span class="act del" title="{$vo.title}" actid="{$vo.id}">删除</span></td>
-        </tr>
-    </volist>
-</table>
-
+<extend name="Public:default" />
+<block name="container">
+    <div class="container-fluid">
+        <h2>文章列表</h2>
+        <table class="sportstype">
+            <caption>{$captionTitle}</caption>
+            <tr>
+                <th>id</th>
+                <th>文章</th>
+                <th>状态</th>
+                <th>创建时间</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            <volist name="list" id="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td><a href="javascript:void(0);" class="catName" title="{$vo.title}">{$vo.title}</a></td>
+                    <td><span class="catName">{$vo.status}</span></td>
+                    <td><span class="catName">{$vo.created}</span></td>
+                    <td><span class="catName">{$vo.modified}</span></td>
+                    <td><span class="act alter" title="{$vo.title}" actid="{$vo.id}">修改</span>｜<span class="act del" title="{$vo.title}" actid="{$vo.id}">删除</span></td>
+                </tr>
+            </volist>
+        </table>
+    </div>
+</block>
 <style>
     .pop-wrap{position: absolute;top: 50%;left: 50%; width: 600px;height: 300px;margin-top: -150px;margin-left: -300px; display: none;background: #EEEEEE}
     .pop-wrap p{margin: 0 auto;}

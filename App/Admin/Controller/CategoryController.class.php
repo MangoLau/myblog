@@ -19,28 +19,28 @@ class CategoryController extends Controller {
     }
 
     public function alterCategory(){
-	$Dao = M('Category');
-	if(!trim($_POST['id'])){
-	    $result['success'] = false;
-	    $result['msg'] = '修改数据错误';
-	    $this->ajaxReturn($result);
-	}
-	$data = array();
-	$where['id'] = intval($_POST['id']);
-	$data['pid'] = intval($_POST['pid']);
-	$data['name'] = strval($_POST['name']);
-	$data['remark'] = strval($_POST['remark']);
-    $data['modefied'] = date('Y-m-d H:i:s');
-	$result['data'] = $Dao->where($where)->save($data);
-	if($result['data']){
-	    $result['success'] = true;
-	    $result['msg'] = '修改成功';
-	    $this->ajaxReturn($result);
-	} else {
-	    $result['success'] = false;
-	    $result['msg'] = '数据修改失败';
-	    $this->ajaxReturn($result);
-	}
+        $Dao = M('Category');
+        if(!trim($_POST['id'])){
+            $result['success'] = false;
+            $result['msg'] = '修改数据错误';
+            $this->ajaxReturn($result);
+        }
+        $data = array();
+        $where['id'] = intval($_POST['id']);
+        $data['pid'] = intval($_POST['pid']);
+        $data['name'] = strval($_POST['name']);
+        $data['remark'] = strval($_POST['remark']);
+        $data['modefied'] = date('Y-m-d H:i:s');
+        $result['data'] = $Dao->where($where)->save($data);
+        if($result['data']){
+            $result['success'] = true;
+            $result['msg'] = '修改成功';
+            $this->ajaxReturn($result);
+        } else {
+            $result['success'] = false;
+            $result['msg'] = '数据修改失败';
+            $this->ajaxReturn($result);
+        }
     }
 
     public function addCategory(){
