@@ -47,9 +47,9 @@
                                             </ul>
                                         </td>
                                         <td>
-                                            <a href="{:U('access', array('uid', $v['id']))}" title="赋予角色"><i class="icon-wrench"></i></a>&nbsp;&nbsp;
-                                            <a href="{:U('updateUser', array('id', $v['id']))}" title="编辑"><i class="icon-pencil"></i></a>&nbsp;&nbsp;
-                                            <a href="{:U('deleteUser', array('id', $v['id']))}" title="删除" onclick="if(!confirm('确定删除？')){return false;}"><i class="icon-trash"></i></a>
+                                            <a href="{:U('access', array('uid' => $v['id']))}" title="赋予角色"><i class="icon-wrench"></i></a>&nbsp;&nbsp;
+                                            <a href="{:U('updateUser', array('id' => $v['id']))}" title="编辑"><i class="icon-pencil"></i></a>&nbsp;&nbsp;
+                                            <a href="{:U('deleteUser', array('id' => $v['id']))}" title="删除" onclick="if(!confirm('确定删除？')){return false;}"><i class="icon-trash"></i></a>
                                         </td>
                                     </tr>
                                 <!-- </volist> -->

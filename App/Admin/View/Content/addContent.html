@@ -1,16 +1,56 @@
 <extend name="Public:default" />
 <block name="container">
     <div class="container-fluid">
-        <div class="altCategory pop-container">
-            <h2>add文章</h2>
-            <form>
-                <div class="opt-nav"><label>标题</label><input type="text" name="title" id="title" class="opt-input" maxlength="64"/></div>
-                <div class="opt-nav"><label>文章内容</label>
-                    <!-- 加载编辑器的容器 里面写你的初始化内容-->
-                    <textarea id="container" name="content">{$list.content}</textarea>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+						<span class="icon">
+							<i class="icon-th"></i>
+						</span>
+                        <h5>文章添加</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <form class="form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label">文章标题</label>
+                                <div class="controls">
+                                    <input type="text" id="title" name="title" maxlength="64" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">文章简介</label>
+                                <div class="controls">
+                                    <input type="text" id="introduction" name="introduction" maxlength="256" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">SEO关键词</label>
+                                <div class="controls">
+                                    <input type="text" id="keyword" name="keyword" maxlength="256" placeholder="关键词之间用英文符 , 隔开" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">SEO描述</label>
+                                <div class="controls">
+                                    <input type="text" id="description" name="description" maxlength="256" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">文章内容</label>
+                                <div class="controls">
+                                    <textarea id="container" name="content" >
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary sure">保存</button>
+                                <button type="reset" class="btn btn-primary">重置</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="opt-nav"><input type="button" name="submit" value="添加" class="button sure"/></div>
-            </form>
+            </div>
         </div>
     </div>
 </block>
@@ -27,24 +67,27 @@
             UEDITOR_HOME_URL : '__PUBLIC__/UEditor/',//为编辑器实例添加一个路径，这个不能被注释
             serverUrl : "__PUBLIC__/UEditor/php/controller.php", // 服务器统一请求接口路径
             initialFrameWidth : 960,
-            initialFrameHeight : 400
+            initialFrameHeight : 200
         });
         $(document).ready(function(){
             $('form .sure').click(function(){
                 var _title = $('#title').val(),
+                        _introduction = $('#introduction').val(),
+                        _keyword = $('#keyword').val(),
+                        _description = $('#description').val(),
                         _content = editor.getContent();//获取html内容
-                if(_title.trim == '' && _content.trim() ==''){
+                if(_title.trim() == '' && _content.trim() ==''){
                     alert('标题不能为空！');
                     return false;
                 } else {
                     $.ajax({
                         type: "POST",
                         url: "{:U('Content/addContent')}",
-                        data: {title:_title,content:_content},
+                        data: {title:_title,introduction:_introduction,keyword:_keyword,description:_description,content:_content},
                         success: function(result){
                             if(result.success){
                                 alert('添加成功！');
-                                $('#main .content').load("{:U('Content/index')}");
+                                window.location.href = "{:U('Content/index')}";
                             } else {
                                 alert(result.msg);
                             }

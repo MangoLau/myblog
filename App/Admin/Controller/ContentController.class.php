@@ -8,15 +8,23 @@
 namespace Admin\Controller;
 use Think\Controller;
 class ContentController extends Controller {
-    #文章列表
+    /**
+     * 文章列表
+     **/
     public function index() {
         $Content = M('Content');
-        $list = $Content->select();
+        $count = $Content->count();
+        $Page = new \Think\Page($count, 20);
+        $show = $Page->show();
+        $list = $Content->limit($Page->firstRow.','.$Page->listRows)->select();
+        $this->assign('page', $show);
         $this->assign('list', $list);
         $this->display(); // 输出模板
     }
 
-    #文章添加
+    /**
+     * 文章添加
+     */
     public function addContent() {
         if (isset($_POST['title'])){
             $Content = D('Content');
@@ -47,7 +55,9 @@ class ContentController extends Controller {
         $this->display();
     }
 
-    #文章修改
+    /**
+     * 文章修改
+     */
     public function altContent() {
         if (isset($_POST['id']) && isset($_POST['title'])) {
             $Content = D('Content');
@@ -72,20 +82,18 @@ class ContentController extends Controller {
             }
         }
         //显示修改页面
-        if (isset($_POST['aid'])) {
+        if (isset($_GET['aid'])) {
             $Content = M('Content');
-            $where['id'] = intval($_POST['aid']);
-            $list = $Content->field('id,title,content')->where($where)->find();
+            $where['id'] = intval($_GET['aid']);
+            $list = $Content->where($where)->find();
             $this->assign('list', $list);
             $this->display();die;
         }
-        $return['success'] = false;
-        $return['code'] = 5002;
-        $return['msg'] = '更新失败！';
-        $this->ajaxReturn($return);die;
     }
 
-    #文章删除
+    /**
+     * 文章删除
+     */
     public function delContent() {
         if (isset($_GET['aid'])) {
             $where['id'] = intval($_GET['aid']);

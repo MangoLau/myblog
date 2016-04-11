@@ -6,7 +6,7 @@ return array(
     /* 数据库设置 */
     'DB_TYPE'               =>  'mysql',     // 数据库类型
     'DB_HOST'               =>  '127.0.0.1', // 服务器地址
-    'DB_NAME'               =>  'clock',          // 数据库名
+    'DB_NAME'               =>  'myblog',          // 数据库名
     'DB_USER'               =>  'root',      // 用户名
     'DB_PWD'                =>  '',          // 密码
     'DB_PORT'               =>  '3306',        // 端口
@@ -25,4 +25,5 @@ return array(
     'ERROR_PAGE'            =>  '',	// 错误定向页面
     'SHOW_ERROR_MSG'        =>  true,    // 显示错误信息
     'TRACE_MAX_RECORD'      =>  100,    // 每个级别的错误信息 最大记录数
+    'SHOW_PAGE_TRACE'       =>  true,
 );

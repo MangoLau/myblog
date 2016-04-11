@@ -31,9 +31,9 @@
                                         <td><if condition="$v[status] eq 1">开启<i class="icon-ok"></i><else/>关闭<i class="icon-remove"></i></if></td>
                                         <td>{$v.remark}</td>
                                         <td>
-                                            <a href="{:U('access', array('rid',$v['id']))}" title="配置权限"><i class="icon-wrench"></i></a>&nbsp;&nbsp;
-                                            <a href="{:U('updateRole', array('id', $v['id']))}" title="编辑"><i class="icon-pencil"></i></a>&nbsp;&nbsp;
-                                            <a href="{:U('deleteRole', array('id', $v['id']))}" title="删除" onclick="if(!confirm('确定删除？')){return false;}"><i class="icon-trash"></i></a>
+                                            <a href="{:U('access', array('rid' => $v['id']))}" title="配置权限"><i class="icon-wrench"></i></a>&nbsp;&nbsp;
+                                            <a href="{:U('updateRole', array('id' => $v['id']))}" title="编辑"><i class="icon-pencil"></i></a>&nbsp;&nbsp;
+                                            <a href="{:U('deleteRole', array('id' => $v['id']))}" title="删除" onclick="if(!confirm('确定删除？')){return false;}"><i class="icon-trash"></i></a>
                                         </td>
                                     </tr>
                                 <!-- </volist> -->
