@@ -97,82 +97,39 @@
         </div>
         
     <div class="container-fluid">
-        <style>
-            .pop-altCategory{
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                margin-top: -110px;
-                margin-left: -250px;
-                display: none;
-            }
-            .altCategory{
-                width: 500px;
-                height: 200px;
-                background: #eee;
-            }
-            .opt-nav{
-                display: block;
-                width: 300px;
-                height: auto;
-                margin: 18px auto;
-                overflow: hidden;
-            }
-            .opt-nav label{
-                display: block;
-                width: 100px;
-                float: left;
-                margin-right: 20px;
-            }
-            .opt-nav .opt-input{
-                width: 150px;
-            }
-            .pop-delCategory{
-                width: 500px;
-                height: 200px;
-                background: #eee;
-                margin: 100px auto;
-                z-index: 99;
-                display: none;
-            }
-            .pop-delCategory p{
-                width: 80%;
-                line-height: 150px;
-                margin: 0 auto;
-            }
-            .pop-delCategory p span{
-                font-weight: bold;
-            }
-            .pop-delCategory .choose{
-                width: 40%;
-                margin: 0 auto;
-            }
-        </style>
-        <h2>类型列表</h2>
-        <table class="sportstype">
-            <caption><?php echo ($captionTitle); ?></caption>
-            <tr><th>id</th><th>类型名</th><th>操作</th></tr>
-            <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr><td><?php echo ($vo["id"]); ?></td><td><span class="catName"><?php echo ($vo["pad"]); echo ($vo["name"]); ?></span></td><td><span class="act alter" title="<?php echo ($vo["name"]); ?>" remark="<?php echo ($vo["remark"]); ?>" pid="<?php echo ($vo["pid"]); ?>" actid="<?php echo ($vo["id"]); ?>">修改</span>｜<span class="act add" title="<?php echo ($vo["name"]); ?>" actid="<?php echo ($vo["id"]); ?>">添加子类</span>｜<span class="act del" title="<?php echo ($vo["name"]); ?>" actid="<?php echo ($vo["id"]); ?>">删除</span></td></tr><?php endforeach; endif; else: echo "" ;endif; ?>
-        </table>
-        <div class="altCategory pop-altCategory">
-            <form>
-                <div class="opt-nav">
-                    <label>父类型</label>
-                    <select name="pCategory" class="opt-input">
-                        <option value="0" selected="selected">大类</option>
-                        <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo["id"]); ?>"><?php echo ($vo["name"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
-                    </select>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+                        <span class="icon">
+                            <i class="icon-th"></i>
+                        </span>
+                        <h5>文章列表</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>类型名</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr>
+                                    <td><?php echo ($i); ?></td>
+                                    <td><span class="catName"><?php echo ($vo["pad"]); echo ($vo["name"]); ?></span></td>
+                                    <td>
+                                        <a href="<?php echo U('altCategory', array('id' => $vo['id']));?>" title="修改" data-id="<?php echo ($vo['id']); ?>"><i class="icon-pencil"></i></a>
+                                        <a class="act add" href="<?php echo U('addCategory', array('pid' => $vo['id']));?>" title="添加子类" data-id="<?php echo ($vo['id']); ?>"><i class="icon-plus"></i></a>
+                                        <a class="act del" href="javascript:void(0);" title="删除" data-name="<?php echo ($vo['name']); ?>" data-id="<?php echo ($vo['id']); ?>"><i class="icon-trash"></i></a>
+                                    </td>
+                                </tr><?php endforeach; endif; else: echo "" ;endif; ?>
+                            <tr><td colspan="3"><?php echo ($page); ?></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="opt-nav"><label>类型名</label><input type="text" name="categoryName" class="opt-input" maxlength="64"/></div>
-                <div class="opt-nav"><label>备注</label><input type="text" name="remark" class="opt-input" maxlength="64"/></div>
-                <div class="opt-nav"><input type="button" name="submit" class="button sure" value="修改"/><input type="button" value="取消" class="button cancel"/></div>
-            </form>
-        </div>
-        <div class="pop-delCategory">
-            <p>删除类型:<span>足球</span>吗？</p>
-            <div class="choose">
-                <input type="button" class="sure button" value="确定"/>
-                <input type="button" class="cancel button" value="取消"/>
             </div>
         </div>
     </div>
@@ -187,6 +144,31 @@
     <script src="/myblog/Public/Admin/js/bootstrap.min.js"></script>
     <script src="/myblog/Public/Admin/js/unicorn.js"></script>
 
+
+    <script type="application/javascript">
+        $(document).ready(function(){
+            $('.del').on('click',function(){
+                var _id = $(this).attr('data-id'),
+                        _name = $(this).attr('data-name');
+                if (!confirm('确定删除《'+_name+'》？')) {
+                    return false;
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "<?php echo U('Category/delCategory');?>",
+                    data: {id:_id},
+                    success: function(result){
+                        if(result.success){
+                            alert('删除成功！');
+                            window.localtion.reload();
+                        } else {
+                            alert(result.msg);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

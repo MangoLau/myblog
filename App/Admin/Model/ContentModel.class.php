@@ -9,7 +9,10 @@ namespace Admin\Model;
 use Think\Model;
 
 class ContentModel extends Model{
-    #自动验证
+    /**
+     * @var array
+     * 自动验证
+     */
     protected $_validate = array(
         array('title','require','标题必须！', self::MUST_VALIDATE),
         array('title','1,64','标题长度不能超过64位',self::MUST_VALIDATE,'length',self::MODEL_BOTH),
@@ -20,19 +23,28 @@ class ContentModel extends Model{
         array('content','1,10000','标题长度不能超过10000位',self::MUST_VALIDATE,'length',self::MODEL_BOTH),
     );
 
-    #自动完成
+    /**
+     * @var array
+     * 自动完成
+     */
     protected $_auto = array (
         array('created','datetime',self::MODEL_INSERT,'callback'),
         array('modified','datetime',self::MODEL_BOTH,'callback'),
         array('uid','getuser',self::MODEL_INSERT,'callback'),
     );
 
-    //当前时间
+    /**
+     * @return bool|string
+     * 当前时间
+     */
     protected function datetime(){
         return date('Y-m-d H:i:s');
     }
 
-    //用户id
+    /**
+     * @return int
+     * 用户id
+     */
     protected function getuser(){
         return $_SESSION['uid'] ? intval($_SESSION['uid']) : 1;
     }

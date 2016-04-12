@@ -86,6 +86,9 @@ class ContentController extends Controller {
             $Content = M('Content');
             $where['id'] = intval($_GET['aid']);
             $list = $Content->where($where)->find();
+            if ( ! $list) {
+                $this->error('没有此文章');
+            }
             $this->assign('list', $list);
             $this->display();die;
         }
@@ -95,8 +98,8 @@ class ContentController extends Controller {
      * 文章删除
      */
     public function delContent() {
-        if (isset($_GET['aid'])) {
-            $where['id'] = intval($_GET['aid']);
+        if (isset($_GET['id'])) {
+            $where['id'] = intval($_GET['id']);
             $Content = M('Content');
             $ok = $Content->where($where)->delete();
             if ($ok) {

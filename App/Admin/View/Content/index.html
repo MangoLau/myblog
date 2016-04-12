@@ -32,7 +32,7 @@
                                     <td><span class="catName">{$vo.modified}</span></td>
                                     <td>
                                         <a title="修改" href="{:U('altContent', array('aid' => $vo['id']))}"><i class="icon-pencil"></i></a>
-                                        <a href="{:U('deleteUser', array('id' => $v['id']))}" title="删除" onclick="if(!confirm('确定删除《{$vo[\'title\']}》？')){return false;}"><i class="icon-trash"></i></a></td>
+                                        <a class="del" href="javascript:void(0);" data-id="{$vo['id']}" title="删除" data-title="{$vo['title']}"><i class="icon-trash"></i></a></td>
                                 </tr>
                             </volist>
                             <tr><td colspan="6">{$page}</td></tr>
@@ -47,35 +47,24 @@
 <block name="js">
     <script type="application/javascript">
         $(function () {
-            //修改
-            $('.alter').click(function(){
-                var aid = $(this).attr('actid');
-                $('.content').load("{:U('Content/altContent')}", {aid:aid});
-            });
-
-
             //删除
             $('.del').click(function(){
-                var _id = $(this).attr('actid'),_title = $(this).attr('title');
-                $('.pop-wrap span').html(_title);
-                $('.pop-wrap').show();
-                $('.pop-wrap .sure').click(function(){
-                    $.ajax({
-                        type: "POST",
-                        url: "{:U('Content/delContent')}",
-                        data: {id:_id},
-                        success: function(result){
-                            if(result.success){
-                                alert('删除成功！');
-                                $('#main .content').load("{:U('Content/index')}");
-                            } else {
-                                alert(result.msg);
-                            }
+                var _id = $(this).attr('data-id'),_title = $(this).attr('data-title');
+                if (!confirm('确定删除《'+_title+'》？')) {
+                    return false;
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "{:U('Content/delContent')}",
+                    data: {id:_id},
+                    success: function(result){
+                        if(result.success){
+                            alert('删除成功！');
+                            window.location.reload();
+                        } else {
+                            alert(result.msg);
                         }
-                    });
-                });
-                $('.pop-wrap .cancel').click(function(){
-                    $('.pop-wrap').hide();
+                    }
                 });
             });
         });

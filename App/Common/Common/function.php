@@ -87,6 +87,7 @@ function menuLinks(){
  * @param number $pid	 父级id
  */
 function node_merge($node, $access = NULL, $pid = 0) {
+    if ( ! is_array($node)) return false;
     $arr = array();
 
     foreach ($node as $v) {

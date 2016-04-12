@@ -97,24 +97,51 @@
         </div>
         
     <div class="container-fluid">
-        <div class="altCategory pop-container">
-            <h2>add类型</h2>
-            <form>
-                <div class="opt-nav">
-                    <label>父类型</label>
-                    <select name="pCategory" class="opt-input">
-                        <?php if(pid == 0): ?><option value="0" selected="selected">大类</option>
-                            <?php else: ?>
-                            <option value="0">大类</option><?php endif; ?>
-                        <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i; if($vo['id'] == $pid): ?><option value="<?php echo ($vo["id"]); ?>" selected="selected"><?php echo ($vo["name"]); ?></option>
-                                <?php else: ?>
-                                <option value="<?php echo ($vo["id"]); ?>"><?php echo ($vo["name"]); ?></option><?php endif; endforeach; endif; else: echo "" ;endif; ?>
-                    </select>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+						<span class="icon">
+							<i class="icon-th"></i>
+						</span>
+                        <h5>文章类型添加</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <form class="form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label">父类型</label>
+                                <div class="controls">
+                                    <select name="pCategory" id="pid" class="opt-input">
+                                        <?php if(pid == 0): ?><option value="0" selected="selected">大类</option>
+                                            <?php else: ?>
+                                            <option value="0">大类</option><?php endif; ?>
+                                        <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i; if($vo['id'] == $pid): ?><option value="<?php echo ($vo['id']); ?>" selected="selected"><?php echo ($vo['pad']); echo ($vo['name']); ?></option>
+                                                <?php else: ?>
+                                                <option value="<?php echo ($vo['id']); ?>"><?php echo ($vo['pad']); echo ($vo['name']); ?></option><?php endif; endforeach; endif; else: echo "" ;endif; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">类型名</label>
+                                <div class="controls">
+                                    <input type="text" id="name" name="name" maxlength="64" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">备注</label>
+                                <div class="controls">
+                                    <input type="text" id="remark" name="remark" maxlength="64" />
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary sure">保存</button>
+                                <button type="reset" class="btn btn-primary">重置</button>
+                                <a class="btn btn-primary" href="<?php echo U('index');?>">返回</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="opt-nav"><label>类型名</label><input type="text" name="categoryName" class="opt-input" maxlength="64"/></div>
-                <div class="opt-nav"><label>备注</label><input type="text" name="remark" class="opt-input" maxlength="64"/></div>
-                <div class="opt-nav"><input type="button" name="submit" value="添加" class="button sure"/></div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -128,6 +155,33 @@
     <script src="/myblog/Public/Admin/js/bootstrap.min.js"></script>
     <script src="/myblog/Public/Admin/js/unicorn.js"></script>
 
+
+    <script type="application/javascript">
+        $(document).ready(function(){
+            $('form .sure').click(function(){
+                var _pid = $('#pid').val(),
+                        _name = $('#name').val(),
+                        _remark = $('#remark').val();
+                if(_name.trim() == ''){
+                    alert('类型名不能为空！');
+                    return false;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo U('Category/addCategory');?>",
+                    data: {pid:_pid,name:_name,remark:_remark},
+                    success: function(result){
+                        if(result.success){
+                            alert('添加成功！');
+                            window.location.href = "<?php echo U('Category/index');?>";
+                        } else {
+                            alert(result.msg);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
