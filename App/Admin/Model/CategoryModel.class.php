@@ -39,15 +39,18 @@ class CategoryModel extends Model{
     /**
      * @param $id
      * @return mixed
-     * 删除
+     * 删除$id的类型，并删除这个类型下的所有子类
      */
     public function delCategorys($id) {
+        if ( ! is_numeric($id)) return false;
         $idArrs = $this->seleteChilds($id);
-        if (is_array($idArrs)) {
-            $id = implode(',', $id);
+        if ($idArrs) {
+            $idStr = implode(',', $idArrs);
+            $idStr .= ','.$id;
+        } else {
+            $idStr = $id;
         }
-        return $this->delete($id);
-
+        return $this->delete($idStr);
     }
 
     /**
@@ -55,14 +58,14 @@ class CategoryModel extends Model{
      * @return array|mixed
      * 查找id下的所有子类id
      */
-    public function seleteChilds($pid) {
+    protected function seleteChilds($pid) {
         global $idArrs;
         if (is_array($pid)) {
             foreach($pid as $v) {
                 $where['pid'] = $v;
                 $ids = $this->where($where)->getField('id', true);
                 if ($ids) $idArrs[] = $ids;
-                    $this->seleteChilds($ids);
+                $this->seleteChilds($ids);
             }
         } elseif (is_numeric($pid)){
             $where['pid'] = $pid;
@@ -72,13 +75,16 @@ class CategoryModel extends Model{
         } else {
             return false;
         }
-//        $count = count($idArrs);
-//        $temp = array();
-//        for($i=0; $i<$count; $i++) {
-//            array_merge($temp, $idArrs[$i]);
-//        }
-//        $idArrs = array_unique($temp);
-        return $idArrs;
+
+        $temp = array();
+        foreach($idArrs as $k => $v) {
+            if (is_array($v)) {
+                $temp = array_merge($temp, $v);
+            } elseif (is_numeric($v)) {
+                $temp[] = $v;
+            }
+        }
+        return array_unique($temp);
     }
 }
 

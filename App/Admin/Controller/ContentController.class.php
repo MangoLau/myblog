@@ -83,9 +83,8 @@ class ContentController extends Controller {
         }
         //显示修改页面
         if (isset($_GET['aid'])) {
-            $Content = M('Content');
             $where['id'] = intval($_GET['aid']);
-            $list = $Content->where($where)->find();
+            $list = M('Content')->where($where)->find();
             if ( ! $list) {
                 $this->error('没有此文章');
             }

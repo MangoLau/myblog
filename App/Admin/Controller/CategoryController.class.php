@@ -67,7 +67,7 @@ class CategoryController extends Controller {
             if ( ! $Category->create()){
                 $result['success'] = false;
                 $result['msg'] = '数据新增失败';
-                $result['fail'] = $Category->getDbError();
+                $result['fail'] = $Category->getError();
                 $this->ajaxReturn($result);
             }
             $result['data'] = $Category->add();
@@ -78,7 +78,7 @@ class CategoryController extends Controller {
             } else {
                 $result['success'] = false;
                 $result['msg'] = '数据新增失败';
-                $result['fail'] = $Category->getDbError();
+                $result['fail'] = $Category->getError();
                 $this->ajaxReturn($result);
             }
         }
@@ -94,14 +94,14 @@ class CategoryController extends Controller {
      * 删除类型
      */
     public function delCategory(){
-        $Category = M('Category');
+        $Category = D('Category');
         if(!trim($_GET['id'])){
             $result['success'] = false;
             $result['msg'] = '删除数据错误';
             $this->ajaxReturn($result);
         }
-        $where['id'] = intval($_GET['id']);
-        $result['data'] = $Category->where($where)->delete();
+        $id = intval($_GET['id']);
+        $result['data'] = $Category->delCategorys($id);
         if($result['data']){
             $result['code'] = 200;
             $result['success'] = true;
@@ -111,14 +111,8 @@ class CategoryController extends Controller {
             $result['code'] = 5002;
             $result['success'] = false;
             $result['msg'] = '删除失败';
-            $result['fail'] = $Category->getDbError();
+            $result['fail'] = $Category->getError();
             $this->ajaxReturn($result);
         }
-    }
-
-    public function showIds() {
-        $Category = D('Category');
-        $ids = $Category->seleteChilds(1);
-        print_r($ids);
     }
 }
