@@ -48,8 +48,7 @@ class ContentController extends Controller {
                 }
             }
         }
-        $Category = M('Category');
-        $categoryArr = $Category->field('id,name,remark')->select();
+        $categoryArr = D('Category')->getCates();
         $this->assign('categoryArr', $categoryArr);
         $this->assign('captionTitle', '文章列表');
         $this->display();
@@ -88,6 +87,8 @@ class ContentController extends Controller {
             if ( ! $list) {
                 $this->error('没有此文章');
             }
+            $cates = D('Category')->listCates($list['cid']);
+            $this->assign('cates', $cates);
             $this->assign('list', $list);
             $this->display();die;
         }

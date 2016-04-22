@@ -52,7 +52,9 @@ class NodeController extends Controller {
         $this->display();
     }
 
-    //编辑节点
+    /**
+     * 编辑节点
+     */
     public function updateNode() {
         $where['id'] = $_GET['id'];
         $node = M('Node');

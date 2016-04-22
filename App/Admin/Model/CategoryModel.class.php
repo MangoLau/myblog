@@ -86,6 +86,26 @@ class CategoryModel extends Model{
         }
         return array_unique($temp);
     }
+
+    public function getCates() {
+        $cates = $this->select();
+        return indent_merge($cates);
+    }
+
+    public function listCates($cid=0) {
+        $cates = $this->getCates();
+        $str = '<select name="cid">';
+        foreach($cates as $v) {
+            if ($v['id'] == $cid) {
+                $selected = 'selected';
+            } else {
+                $selected = '';
+            }
+            $str .= '<option value="'.$v['id'].'" '.$selected.'>'.$v['pad'].$v['name'].'</option>';
+        }
+        $str .= '</select>';
+        return $str;
+    }
 }
 
 ?>

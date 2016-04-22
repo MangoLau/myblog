@@ -20,6 +20,12 @@
                                 </div>
                             </div>
                             <div class="control-group">
+                                <label class="control-label">所属类别</label>
+                                <div class="controls">
+                                    {$cates}
+                                </div>
+                            </div>
+                            <div class="control-group">
                                 <label class="control-label">文章简介</label>
                                 <div class="controls">
                                     <input type="text" id="introduction" name="introduction" maxlength="256" value="{$list['introduction']}" />
@@ -68,7 +74,7 @@
             UEDITOR_HOME_URL : '__PUBLIC__/UEditor/',//为编辑器实例添加一个路径，这个不能被注释
             serverUrl : "__PUBLIC__/UEditor/php/controller.php", // 服务器统一请求接口路径
             initialFrameWidth : 960,
-            initialFrameHeight : 200
+            initialFrameHeight : 300
         });
         $(document).ready(function(){
             $('form .sure').click(function(){

@@ -19,6 +19,17 @@
                                 </div>
                             </div>
                             <div class="control-group">
+                                <label class="control-label">所属类别</label>
+                                <div class="controls">
+                                    <select name="cid" id="cid">
+                                        <option value="0">请选择类别</option>
+                                        <volist name="categoryArr" id="vo" >
+                                            <option value="{$vo['id']}">{$vo['pad']}{$vo['name']}
+                                        </volist>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group">
                                 <label class="control-label">文章简介</label>
                                 <div class="controls">
                                     <input type="text" id="introduction" name="introduction" maxlength="256" />
@@ -67,11 +78,12 @@
             UEDITOR_HOME_URL : '__PUBLIC__/UEditor/',//为编辑器实例添加一个路径，这个不能被注释
             serverUrl : "__PUBLIC__/UEditor/php/controller.php", // 服务器统一请求接口路径
             initialFrameWidth : 960,
-            initialFrameHeight : 200
+            initialFrameHeight : 300
         });
         $(document).ready(function(){
             $('form .sure').click(function(){
                 var _title = $('#title').val(),
+                        _cid = $('#cid').val(),
                         _introduction = $('#introduction').val(),
                         _keyword = $('#keyword').val(),
                         _description = $('#description').val(),
@@ -79,11 +91,14 @@
                 if(_title.trim() == '' && _content.trim() ==''){
                     alert('标题不能为空！');
                     return false;
+                } else if(_cid == 0){
+                    alert('请选择所属类别！');
+                    return false;
                 } else {
                     $.ajax({
                         type: "POST",
                         url: "{:U('Content/addContent')}",
-                        data: {title:_title,introduction:_introduction,keyword:_keyword,description:_description,content:_content},
+                        data: {title:_title,cid:_cid,introduction:_introduction,keyword:_keyword,description:_description,content:_content},
                         success: function(result){
                             if(result.success){
                                 alert('添加成功！');

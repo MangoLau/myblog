@@ -32,8 +32,8 @@ $(document).ready(function(){
 				submenus.fadeOut(250);			
 				submenu.fadeIn(250);
 			}
-			submenus_parents.removeClass('open');		
-			li.addClass('open');	
+			submenus_parents.removeClass('open active');
+			li.addClass('open active');
 		}
 	});
 	
@@ -53,6 +53,14 @@ $(document).ready(function(){
 			ul.slideDown(250);
 		}
 	});
+
+    $('#sidebar > ul > li > ul > li > a').click(function(){
+        var li = $(this).parent('li');
+        if(!li.hasClass('active')){
+            li.parent('ul').find('li').removeClass('active');
+            li.addClass('active');
+        }
+    });
 	
 	// === Resize window related === //
 	$(window).resize(function()
