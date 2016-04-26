@@ -7,7 +7,7 @@
  */
 namespace Admin\Controller;
 use Think\Controller;
-class ContentController extends Controller {
+class ContentController extends CommonController {
     /**
      * 文章列表
      **/

@@ -38,42 +38,17 @@
 <div id="sidebar">
     <a href="{:U('Index/index')}" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
     <ul>
-        <!--<li class="active"><a href="{:U('Index/index')}"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>-->
-        <li class="submenu">
-            <a href="#"><i class="icon icon-th-list"></i> <span>节点管理</span> <span class="label">2</span></a>
-            <ul>
-                <li><a href="{:U('Node/index')}" target="_main">节点列表</a></li>
-                <li><a href="{:U('Node/addNode')}" target="_main">添加应用节点</a></li>
-            </ul>
-        </li>
-        <li class="submenu">
-            <a href="#"><i class="icon icon-th-list"></i> <span>角色管理</span> <span class="label">2</span></a>
-            <ul>
-                <li><a href="{:U('Role/index')}" target="_main">角色列表</a></li>
-                <li><a href="{:U('Role/addRole')}" target="_main">角色添加</a></li>
-            </ul>
-        </li>
-        <li class="submenu">
-            <a href="#"><i class="icon icon-th-list"></i> <span>用户管理</span> <span class="label">2</span></a>
-            <ul>
-                <li><a href="{:U('User/index')}" target="_main">用户列表</a></li>
-                <li><a href="{:U('User/addUser')}" target="_main">用户添加</a></li>
-            </ul>
-        </li>
-        <li class="submenu">
-            <a href="#"><i class="icon icon-th-list"></i> <span>文章类别</span> <span class="label">2</span></a>
-            <ul>
-                <li><a href="{:U('Category/index')}" target="_main">文章类别列表</a></li>
-                <li><a href="{:U('Category/addCategory')}" target="_main">文章类别添加</a></li>
-            </ul>
-        </li>
-        <li class="submenu">
-            <a href="#"><i class="icon icon-th-list"></i> <span>文章</span> <span class="label">2</span></a>
-            <ul>
-                <li><a href="{:U('Content/index')}" target="_main">文章列表</a></li>
-                <li><a href="{:U('Content/addContent')}" target="_main">文章添加</a></li>
-            </ul>
-        </li>
+        <li><a href="{:U('Index/index')}" target="_top"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
+        <volist name="menu" id="vo">
+            <li class="submenu">
+                <a href="#"><i class="icon icon-th-list"></i> <span>{$vo['title']}</span> <span class="label">{:count($vo['child'])}</span></a>
+                <ul>
+                    <volist name="vo['child']" id="v">
+                    <li><a href="{:U($vo['name'].'/'.$v['name'])}" target="_main">{$v['title']}</a></li>
+                    </volist>
+                </ul>
+            </li>
+        </volist>
     </ul>
 
 </div>

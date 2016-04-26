@@ -7,7 +7,7 @@
  */
 namespace Admin\Controller;
 use Think\Controller;
-class CategoryController extends Controller {
+class CategoryController extends CommonController {
     /**
      * 类型列表
      */
@@ -100,8 +100,14 @@ class CategoryController extends Controller {
             $result['msg'] = '删除数据错误';
             $this->ajaxReturn($result);
         }
-        $id = intval($_GET['id']);
-        $result['data'] = $Category->delCategorys($id);
+        $id = (int)$_GET['id'];
+        $childs = $Category->where(array('pid'=>$id))->select();
+        if (isset($childs) && $childs != null) {
+            $result['success'] = false;
+            $result['msg'] = '此类型还有子类型！';
+            $this->ajaxReturn($result);
+        }
+        $result['data'] = $Category->delete($id);
         if($result['data']){
             $result['code'] = 200;
             $result['success'] = true;

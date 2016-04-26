@@ -101,6 +101,9 @@ class UserController extends CommonController{
                 }
             }
         }
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : C('USER_AUTH_KEY');
+        $list = $user->where(array('id' => $id))->find();
+        $this->assign('list', $list);
         $this->display();
     }
 

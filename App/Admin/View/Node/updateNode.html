@@ -28,27 +28,27 @@
 								<label class="control-label">是否开启</label>
 								<div class="controls">
 									<select name="status">
-										<!-- <if condition="$list[status] eq 1"> -->
+										<if condition="$list[status] eq 1">
 											<option value="1" selected="selected">开启
 											<option value="0">关闭
-										<!-- <else/> -->
+										<else/>
 											<option value="1">开启
 											<option value="0" selected="selected">关闭
-										<!-- </if> -->
+										</if>
 									</select>
 								</div>
 							</div>
                             <div class="control-group">
                                 <label class="control-label">是否显示</label>
                                 <div class="controls">
-                                    <select name="status">
-                                        <!-- <if condition="$list[status] eq 1"> -->
+                                    <select name="display">
+                                        <if condition="$list['display'] eq 1">
                                         <option value="1" selected="selected">显示
                                         <option value="0">隐藏
-                                            <!-- <else/> -->
+                                        <else/>
                                         <option value="1">显示
                                         <option value="0" selected="selected">隐藏
-                                            <!-- </if> -->
+                                        </if>
                                     </select>
                                 </div>
                             </div>

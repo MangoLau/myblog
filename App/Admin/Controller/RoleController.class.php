@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 use Think\Controller;
-class RoleController extends Controller {
+class RoleController extends CommonController {
     //角色列表
     public function index(){
         $role = M('Role');
@@ -73,7 +73,7 @@ class RoleController extends Controller {
 
             //插入新权限
             if ($access->addAll($data)) {
-                $this->success('修改成功！','__URL__/index');
+                $this->success('修改成功！',U('index'));
             } else {
                 $this->error('修改失败！');
             }

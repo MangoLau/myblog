@@ -84,11 +84,15 @@ class NodeController extends Controller {
     public function deleteNode() {
         $node = M('Node');
         $access = M('Access');
+        $child = $node->where(array('pid'=>(int)$_GET['id']))->select();
+        if(isset($child) && $child != null) {
+            $this->error('此节点还有子节点，不能删除！');
+        }
         $where_node['pid'] = $_GET['id'];
-        $where_n['id'] = $_GET['id'];
-        $where_n['pid'] = $_GET['id'];
+        $where_n['id'] = (int)$_GET['id'];
+        $where_n['pid'] = (int)$_GET['id'];
         $where_n['_logic'] = 'OR';
-        $where_a['node_id'] = $_GET['id'];
+        $where_a['node_id'] = (int)$_GET['id'];
         $arrs = $node ->field('id') ->where($where_node)->select();
         if ($node->where($where_n)->delete()) {//删除节点表1、2级
             $access->where($where_a) ->delete();//删除权限表第1级
