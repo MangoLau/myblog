@@ -17,6 +17,9 @@ define('RUNTIME_PATH','./Runtime/');
 // 定义应用目录
 define('APP_PATH','./App/');
 
+define('UPLOAD_PATH', './Upload');
+define('LINK_IMG_PATH', '/link/');
+
 // 引入ThinkPHP入口文件
 require './ThinkPHP/ThinkPHP.php';
 

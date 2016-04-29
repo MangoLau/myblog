@@ -56,7 +56,7 @@ class NodeController extends Controller {
      * 编辑节点
      */
     public function updateNode() {
-        $where['id'] = $_GET['id'];
+        $where['id'] = (int)$_GET['id'];
         $node = M('Node');
         $list = $node ->where($where) ->find();
 

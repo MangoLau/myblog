@@ -8,14 +8,8 @@ return array(
     'REQUIRE_AUTH_MODULE'   =>'',		// 默认需要认证模块
     'NOT_AUTH_MODULE'		=>'Public',		// 默认无需认证模块
     'USER_AUTH_GATEWAY'	    =>'/Admin/Public/login',	// 默认认证网关
-// RBAC_DB_DSN  数据库连接DSN
-    'RBAC_ROLE_TABLE'       => 'cl_role',//  角色表名称
-    'RBAC_USER_TABLE'       => 'cl_role_user',//  用户表名称
-    'RBAC_ACCESS_TABLE'     => 'cl_access',//  权限表名称
-    'RBAC_NODE_TABLE'       => 'cl_node',//  节点表名称
-    'ADMIN_AUTH_KEY'		=>'administrator',
-
-
+    'LINK_IMG_PATH'         =>'/Upload/Link/',   //链接图标保存地址
+    'UPLOAD_PATH'           =>'/Public',
 
 
 
@@ -26,4 +20,10 @@ return array(
     'REQUIRE_AUTH_ACTION'=>'',		// 默认需要认证操作
     'GUEST_AUTH_ON'          => false,    // 是否开启游客授权访问
     'GUEST_AUTH_ID'           =>    0,     // 游客的用户ID
+// RBAC_DB_DSN  数据库连接DSN
+    'RBAC_ROLE_TABLE'       => 'cl_role',//  角色表名称
+    'RBAC_USER_TABLE'       => 'cl_role_user',//  用户表名称
+    'RBAC_ACCESS_TABLE'     => 'cl_access',//  权限表名称
+    'RBAC_NODE_TABLE'       => 'cl_node',//  节点表名称
+    'ADMIN_AUTH_KEY'		=>'administrator',
 );

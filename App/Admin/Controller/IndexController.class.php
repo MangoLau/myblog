@@ -23,25 +23,37 @@ class IndexController extends CommonController {
         $this->display();
     }
 
+    /**
+     * 获取用户菜单
+     * @return mixed
+     */
     private function getMenu() {
         $access = M('Access');
         $node = M('Node');
         $nodeIds = array();
         $menus = array();
-        $roleIds = M('RoleUser')->where(array('user_id'=>$_SESSION[C('USER_AUTH_KEY')]))->select();
-        foreach($roleIds as $v) {
-            $nodeIds[] = $access->where(array('role_id'=>$v['role_id']))->field('node_id')->select();
-        }
-        foreach($nodeIds as $v) {
-            foreach($v as $val) {
-                $where['id'] = $val['node_id'];
-                $where['status'] = 1;
-                $where['display'] = 1;
-                $menus[] = $node->where($where)->find();
+        if (isset($_SESSION[C('ADMIN_AUTH_KEY')])) {
+            $where['status'] = 1;
+            $where['display'] = 1;
+            $menus = $node->where($where)->select();
+            $menus = node_merge($menus);
+            return $menus[0]['child'];
+        } else {
+            $roleIds = M('RoleUser')->where(array('user_id'=>$_SESSION[C('USER_AUTH_KEY')]))->select();
+            foreach($roleIds as $v) {
+                $nodeIds[] = $access->where(array('role_id'=>$v['role_id']))->field('node_id')->select();
             }
+            foreach($nodeIds as $v) {
+                foreach($v as $val) {
+                    $where['id'] = $val['node_id'];
+                    $where['status'] = 1;
+                    $where['display'] = 1;
+                    $menus[] = $node->where($where)->find();
+                }
+            }
+            $menus = array_filter($menus);
+            $menus = node_merge($menus);
+            return $menus[0]['child'];
         }
-        $menus = array_filter($menus);
-        $menus = node_merge($menus);
-        return $menus[0]['child'];
     }
 }

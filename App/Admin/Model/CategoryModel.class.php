@@ -17,6 +17,7 @@ class CategoryModel extends Model{
         array('name','require','标题必须！', self::MUST_VALIDATE),
         array('name','1,64','类型名长度不能超过64位',self::MUST_VALIDATE,'length',self::MODEL_BOTH),
         array('remark','0,64','备注长度不能超过64位',self::MUST_VALIDATE,'length',self::MODEL_BOTH),
+        array('pid','checkPid','父级类型不能是自己和自己的子类',self::MUST_VALIDATE,'callback',self::MODEL_UPDATE),
     );
 
     /**
@@ -65,13 +66,13 @@ class CategoryModel extends Model{
                 $where['pid'] = $v;
                 $ids = $this->where($where)->getField('id', true);
                 if ($ids) $idArrs[] = $ids;
-                $this->seleteChilds($ids);
+                self::seleteChilds($ids);
             }
         } elseif (is_numeric($pid)){
             $where['pid'] = $pid;
             $ids = $this->where($where)->getField('id', true);
             if ($ids) $idArrs[] = $ids;
-            $this->seleteChilds($ids);
+            self::seleteChilds($ids);
         } else {
             return false;
         }
@@ -85,6 +86,17 @@ class CategoryModel extends Model{
             }
         }
         return array_unique($temp);
+    }
+
+    /**
+     * 检查修改的pid是否是自己或者自己的子类
+     * @param $pid
+     * @return bool
+     */
+    protected function checkPid($pid) {
+        $ids = self::seleteChilds((int)$_POST['id']);
+        $ids[] = (int)$_POST['id'];
+        return in_array($pid, $ids) ? false : true;
     }
 
     public function getCates() {

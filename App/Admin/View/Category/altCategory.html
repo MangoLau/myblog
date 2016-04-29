@@ -74,7 +74,7 @@
                     data: {id:_id,pid:_pid,name:_name,remark:_remark},
                     success: function(result){
                         if(result.success){
-                            alert('添加成功！');
+                            alert('修改成功！');
                             window.location.href = "{:U('Category/index')}";
                         } else {
                             alert(result.msg);
