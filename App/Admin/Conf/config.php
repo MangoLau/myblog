@@ -8,8 +8,8 @@ return array(
     'REQUIRE_AUTH_MODULE'   =>'',		// 默认需要认证模块
     'NOT_AUTH_MODULE'		=>'Public',		// 默认无需认证模块
     'USER_AUTH_GATEWAY'	    =>'/Admin/Public/login',	// 默认认证网关
-    'LINK_IMG_PATH'         =>'/Upload/Link/',   //链接图标保存地址
-    'UPLOAD_PATH'           =>'/Public',
+//    'LINK_IMG_PATH'         =>'/Upload/Link/',   //链接图标保存地址
+//    'UPLOAD_PATH'           =>'/Public',
 
 
 

@@ -69,9 +69,9 @@ class LinkController extends CommonController {
             $this->list = M('Link') ->where($where) ->find();
         }
         //保存编辑
-        if (IS_POST) {
-            if ($_POST['img']) {
-                $where['id'] = (int)$_GET['id'];
+        if (isset($_POST['id'])) {
+            if ($_FILES['img']) {
+                $where['id'] = (int)$_POST['id'];
                 $links = M('Link')->where($where)->find();
                 if ( ! $links) $this->error('没有此链接！');
                 $img = ltrim($links['img'], '/');
@@ -111,7 +111,7 @@ class LinkController extends CommonController {
             $links = $Link->where($where)->find();
             if ( ! $links) $this->error('没有此链接！');
             $img = ltrim($links['img'], '/');
-            if (file_exists($img)) unlink($img);
+            if (file_exists($img)) unlink($img); //删除图标
             $result = $Link ->where($where) ->delete();
             if ($result) {
                 $this->success('删除成功', U('index'));
@@ -121,6 +121,10 @@ class LinkController extends CommonController {
         }
     }
 
+    /**
+     * 上传修改的图标
+     * @return mixed
+     */
     protected function uploadImg() {
         $upload = new \Think\Upload();// 实例化上传类
         $upload->maxSize   =     3145728 ;// 设置附件上传大小

@@ -33,9 +33,9 @@
                                         <td>{$v['href']}</td>
                                         <td><if condition="$v[status] eq 1">开启<i class="icon-ok"></i><else/>关闭<i class="icon-remove"></i></if></td>
                                         <td><if condition="$v['type'] eq 1">友情链接<else/>其他链接</if></td>
-                                        <td><if condition="$v['img'] neq ''"><img src="__ROOT__{$v['img']}" /></if></td>
-                                        <td>{:date('Y-m-d H:i:s', $v['created'])}</td>
-                                        <td>{:date('Y-m-d H:i:s', $v['modified'])}</td>
+                                        <td><if condition="$v['img'] neq ''"><img src="__ROOT__{$v['img']}" style="width: 50px;" /></if></td>
+                                        <td>{$v['created']}</td>
+                                        <td>{$v['modified']}</td>
                                         <td>
                                             <a href="{:U('altLink', array('id' => $v['id']))}" title="编辑"><i class="icon-pencil"></i></a>&nbsp;&nbsp;
                                             <a href="{:U('delLink', array('id' => $v['id']))}" title="删除" onclick="if(!confirm('确定删除？')){return false;}"><i class="icon-trash"></i></a>

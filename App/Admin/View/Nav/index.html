@@ -1,0 +1,118 @@
+<extend name="Public:default" />
+<block name="container">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+                        <span class="icon">
+                            <i class="icon-th"></i>
+                        </span>
+                        <h5>导航信息</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%;">编号</th>
+                                    <th style="width:10%;">导航名</th>
+                                    <th style="width:10%;">导航链接</th>
+                                    <th style="width:5%;">状态</th>
+                                    <th style="width:5%;">是否显示</th>
+                                    <th style="width:5%;">排序</th>
+                                    <th style="width:10%;">创建时间</th>
+                                    <th style="width:10%;">修改时间</th>
+                                    <th style="width:10%;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <volist name="list" id="v">
+                                    <tr>
+                                        <td>{$i}</td>
+                                        <td>{$v['nav_name']}</td>
+                                        <td>{$v['link']}</td>
+                                        <td><if condition="$v[status] eq 1">开启<i class="icon-ok"></i><else/>关闭<i class="icon-remove"></i></if></td>
+                                        <td><if condition="$v['display'] eq 1">显示<else/>隐藏</if></td>
+                                        <td>{$v['sort']}</td>
+                                        <td>{$v['created']}</td>
+                                        <td>{$v['modified']}</td>
+                                        <td><a href="{:U('addNav', array('pid' => $v['id']))}" title="增加子导航"><i class="icon-plus"></i></a>&nbsp;&nbsp;
+                                            <a href="{:U('altNav', array('id' => $v['id']))}" title="编辑"><i class="icon-pencil"></i></a>&nbsp;&nbsp;
+                                            <a href="{:U('delNav', array('id' => $v['id']))}" title="删除" onclick="if(!confirm('确定删除？')){return false;}"><i class="icon-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </volist>
+                                <tr><td colspan="10">{$page}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
+                        <span class="icon">
+                            <i class="icon-th"></i>
+                        </span>
+                        <h5>类型信息</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th style="width:5%;">编号</th>
+                                <th style="width:10%;">类型名</th>
+                                <th style="width:10%;">链接地址</th>
+                                <th style="width:10%;">选择模块</th>
+                                <th style="width:10%;">选择方式</th>
+                                <th style="width:10%;">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="cats" id="vo">
+                                <tr>
+                                    <td>{$i}</td>
+                                    <td>{$vo['pad']}{$vo['name']}</td>
+                                    <td>
+                                        <input type="text" name="link" class="link" data-link="?cid={$vo['id']}" value="?cid={$vo['id']}" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <select class="opt-input controller">
+                                            <option value="0" selected="selected">选择模块</option>
+                                            <volist name="nodes" id="vo">
+                                                <option value="{$vo['id']}" data-link="{$vo['name']}">{$vo['title']}</option>
+                                            </volist>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="opt-input action">
+                                            <option value="0" selected="selected">选择方式</option>
+                                        </select>
+                                    </td>
+                                    <td><a href="{:U('addNav', array('pid' => $vo['id']))}" class="btn btn-primary" title="增加导航">增加</i></a>
+                                    </td>
+                                </tr>
+                            </volist>
+                            <tr><td colspan="6">{$page}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="js">
+<script>
+    $(function(){
+        $('.controller').change(function(){
+            var _selected = this.value;
+            console.log(this);
+            var _link = this.attr('data-link');
+            alert(_link);
+        });
+    });
+</script>
+</block>

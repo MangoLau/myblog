@@ -9,18 +9,28 @@ namespace Admin\Controller;
 use Think\Controller;
 class NavController extends CommonController {
     /**
-     * 类型列表
+     * 导航列表
      */
     public function index(){
         $Nav = M('Nav');
         $navArr = $Nav->select();
         $navArr = indent_merge($navArr);
+        // 类型
+        global $clist;
+        $clist = array();// 消除全局变量带来的影响
+        $cat = M('Category');
+        $catArr = $cat->select();
+        $catArr = indent_merge($catArr);
+        // 前端展示节点
+        $homenodeArr = M('Homenode')->where(array('pid'=>0))->select();
+        $this->assign('nodes', $homenodeArr);
+        $this->assign('cats', $catArr);
         $this->assign('list', $navArr);
         $this->display();
     }
 
     /**
-     * 修改类型
+     * 修改导航
      */
     public function altNav(){
         $Nav = D('Nav');
@@ -69,7 +79,7 @@ class NavController extends CommonController {
     }
 
     /**
-     * 增加类型
+     * 增加导航
      */
     public function addNav() {
         $Nav = D('Nav');
@@ -101,7 +111,7 @@ class NavController extends CommonController {
     }
 
     /**
-     * 删除类型
+     * 删除导航
      */
     public function delNav(){
         $Nav = D('Nav');
