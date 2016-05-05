@@ -13,7 +13,7 @@ class HomenodeModel extends Model{
  */
     protected $_auto = array (
         array('created','datetime',self::MODEL_INSERT,'callback'),
-        array('modified','datetime',self::MODEL_BOTH,'callback'),
+        array('modified','datetime',self::MODEL_UPDATE,'callback'),
     );
 
     /**

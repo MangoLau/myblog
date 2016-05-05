@@ -30,6 +30,58 @@ class NavController extends CommonController {
     }
 
     /**
+     * 增加导航
+     */
+    public function addNav() {
+        $Nav = D('Nav');
+        if( ! empty($_POST)){
+            if (isset($_POST['cid']) && $_POST['cid'] !=0 ) {
+                $cids = $Nav->where(array('cid' => (int)$_POST['cid']))->find();
+                if ( ! empty($cids)) {
+                    $result['code'] = 3001;
+                    $result['success'] = false;
+                    $result['msg'] = '此类型已经设置导航';
+                    $this->ajaxReturn($result);
+                }
+                $catPidArr = M('Category')->where(array('id' => (int)$_POST['cid']))->find();
+                if ($catPidArr) {
+                    $navPidArr = $Nav->where(array('cid' => $catPidArr['pid']))->find();
+                    if ( ! $navPidArr) {
+                        $result['code'] = 3002;
+                        $result['success'] = false;
+                        $result['msg'] = '此类型的父类型还没有设置导航';
+                        $this->ajaxReturn($result);
+                    } else {
+                        $_POST['pid'] = $catPidArr['id'];
+                    }
+                }
+            }
+            $_POST['pid'] = (isset($_POST['pid'])) ? (int)$_POST['pid'] : 0;
+            if ( ! $Nav->create()){
+                $result['success'] = false;
+                $result['msg'] = $Nav->getError();
+                $this->ajaxReturn($result);
+            }
+            $result['data'] = $Nav->add();
+            if ($result['data']) {
+                $result['success'] = true;
+                $result['msg'] = '新增成功';
+                $this->ajaxReturn($result);
+            } else {
+                $result['success'] = false;
+                $result['msg'] = $Nav->getError();
+                $this->ajaxReturn($result);
+            }
+        }
+        $NavArr = $Nav->select();
+        $NavArr = indent_merge($NavArr);
+        $pid = $_GET['pid'] ? (int)$_GET['pid'] : 0;
+        $this->assign('pid', $pid);
+        $this->assign('list', $NavArr);
+        $this->display();
+    }
+
+    /**
      * 修改导航
      */
     public function altNav(){
@@ -79,38 +131,6 @@ class NavController extends CommonController {
     }
 
     /**
-     * 增加导航
-     */
-    public function addNav() {
-        $Nav = D('Nav');
-        if($_POST['name']){
-            if ( ! $Nav->create()){
-                $result['success'] = false;
-                $result['msg'] = '数据新增失败';
-                $result['fail'] = $Nav->getError();
-                $this->ajaxReturn($result);
-            }
-            $result['data'] = $Nav->add();
-            if ($result['data']) {
-                $result['success'] = true;
-                $result['msg'] = '新增成功';
-                $this->ajaxReturn($result);
-            } else {
-                $result['success'] = false;
-                $result['msg'] = '数据新增失败';
-                $result['fail'] = $Nav->getError();
-                $this->ajaxReturn($result);
-            }
-        }
-        $NavArr = $Nav->select();
-        $NavArr = indent_merge($NavArr);
-        $pid = $_GET['pid'] ? intval($_GET['pid']) : 0;
-        $this->assign('pid', $pid);
-        $this->assign('list', $NavArr);
-        $this->display();
-    }
-
-    /**
      * 删除导航
      */
     public function delNav(){
@@ -139,6 +159,29 @@ class NavController extends CommonController {
             $result['msg'] = '删除失败';
             $result['fail'] = $Nav->getError();
             $this->ajaxReturn($result);
+        }
+    }
+
+    public function getHomenodeByPid(){
+        if(empty($_GET['pid']) || $_GET['pid'] == 0){
+            $return['code'] = 3001;
+            $return['success'] = false;
+            $return['msg'] = '数据错误';
+            $this->ajaxReturn($return);
+        }
+        $pid = (int)$_GET['pid'];
+        $res = M('Homenode')->where(array('pid'=>$pid))->select();
+        if($res) {
+            $return['code'] = 200;
+            $return['success'] = true;
+            $return['msg'] = '成功';
+            $return['data'] = $res;
+            $this->ajaxReturn($return);
+        } else {
+            $return['code'] = 3002;
+            $return['success'] = false;
+            $return['msg'] = '服务器繁忙';
+            $this->ajaxReturn($return);
         }
     }
 }

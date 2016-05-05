@@ -29,7 +29,7 @@ class ContentModel extends Model{
      */
     protected $_auto = array (
         array('created','datetime',self::MODEL_INSERT,'callback'),
-        array('modified','datetime',self::MODEL_BOTH,'callback'),
+        array('modified','datetime',self::MODEL_UPDATE,'callback'),
         array('uid','getuser',self::MODEL_INSERT,'callback'),
     );
 

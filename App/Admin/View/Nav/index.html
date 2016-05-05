@@ -74,13 +74,13 @@
                             <volist name="cats" id="vo">
                                 <tr>
                                     <td>{$i}</td>
-                                    <td>{$vo['pad']}{$vo['name']}</td>
+                                    <td class="cname" data-name="{$vo['name']}">{$vo['pad']}{$vo['name']}</td>
                                     <td>
-                                        <input type="text" name="link" class="link" data-link="?cid={$vo['id']}" value="?cid={$vo['id']}" readonly="readonly" />
+                                        <input type="text" name="link" class="link" data-link="?cid={$vo['id']}" data-cid="{$vo['id']}" readonly="readonly" />
                                     </td>
                                     <td>
                                         <select class="opt-input controller">
-                                            <option value="0" selected="selected">选择模块</option>
+                                            <option value="0" data-link="">选择模块</option>
                                             <volist name="nodes" id="vo">
                                                 <option value="{$vo['id']}" data-link="{$vo['name']}">{$vo['title']}</option>
                                             </volist>
@@ -91,7 +91,7 @@
                                             <option value="0" selected="selected">选择方式</option>
                                         </select>
                                     </td>
-                                    <td><a href="{:U('addNav', array('pid' => $vo['id']))}" class="btn btn-primary" title="增加导航">增加</i></a>
+                                    <td><a class="btn btn-primary add-nav" title="增加导航">增加</i></a>
                                     </td>
                                 </tr>
                             </volist>
@@ -108,10 +108,75 @@
 <script>
     $(function(){
         $('.controller').change(function(){
-            var _selected = this.value;
-            console.log(this);
-            var _link = this.attr('data-link');
-            alert(_link);
+            var $tr = $(this).parents('tr');
+            var _selected = $(this).val();
+            var _link = $(this).find("option:selected").attr('data-link');
+            var _value = $tr.find('.link').attr('data-link');
+            var _html = '<option value="0" data-link="">选择方式</option>';
+            if(_selected != 0){
+                $tr.find('.link').val(_link+_value);
+                $.ajax({
+                    url:"{:U('getHomenodeByPid')}",
+                    data: {pid:_selected},
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (res) {
+                        if(res.code == 200 && res.data) {
+                            $.each(res.data, function(key,value){
+                                _html += '<option value="'+value.id+'" data-link="'+value.name+'">'+value.title+'</option>';
+                            });
+                            $tr.find('.action').html(_html);
+                        } else {
+                            alert(res.msg);
+                        }
+                    }
+                });
+            } else {
+                $tr.find('.link').val('');
+            }
+        });
+
+        $('.action').change(function(){
+            var $tr = $(this).parents('tr'),
+                    $controller = $tr.find('.controller'),
+                    $action = $tr.find('.action'),
+                    _controller_link = $controller.find("option:selected").attr('data-link'),
+                    _action_link = $action.find('option:selected').attr('data-link'),
+                    _value = $tr.find('.link').attr('data-link');
+            if (_action_link == ''){
+                $tr.find('.link').val(_controller_link+_value);
+            } else {
+                $tr.find('.link').val(_controller_link+'/'+_action_link+_value);
+            }
+        });
+
+        $('.add-nav').click(function(){
+            var $tr = $(this).parents('tr'),
+                    _link = $tr.find('.link').val(),
+                    _cid = $tr.find('.link').attr('data-cid'),
+                    _name = $tr.find('.cname').attr('data-name');
+            if (_link == '' || _link == 'undefine') {
+                alert('链接地址不能为空！');
+                return false;
+            }
+            if (_cid == 'undefine' || _cid == '' || _name == 'undefine' || _name == '') {
+                alert('数据错误请刷新或者联系开发人员');
+                return false;
+            }
+            $.ajax({
+                type: 'POST',
+                url: "{:U('addNav')}",
+                dataType: 'json',
+                data: {cid:_cid, link:_link, nav_name: _name, type: 1},
+                success: function(data){
+                    if(data.code == 200){
+                        alert('新增成功');
+                        window.location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                }
+            });
         });
     });
 </script>
