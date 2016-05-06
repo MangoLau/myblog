@@ -14,6 +14,7 @@ class NavController extends CommonController {
     public function index(){
         $Nav = M('Nav');
         $navArr = $Nav->select();
+//        print_r($navArr);die;
         $navArr = indent_merge($navArr);
         // 类型
         global $clist;
@@ -44,7 +45,7 @@ class NavController extends CommonController {
                     $this->ajaxReturn($result);
                 }
                 $catPidArr = M('Category')->where(array('id' => (int)$_POST['cid']))->find();
-                if ($catPidArr) {
+                if ($catPidArr && $catPidArr['pid'] != 0) {
                     $navPidArr = $Nav->where(array('cid' => $catPidArr['pid']))->find();
                     if ( ! $navPidArr) {
                         $result['code'] = 3002;
@@ -52,7 +53,7 @@ class NavController extends CommonController {
                         $result['msg'] = '此类型的父类型还没有设置导航';
                         $this->ajaxReturn($result);
                     } else {
-                        $_POST['pid'] = $catPidArr['id'];
+                        $_POST['pid'] = $navPidArr['id'];
                     }
                 }
             }

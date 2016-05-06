@@ -170,8 +170,8 @@
                 data: {cid:_cid, link:_link, nav_name: _name, type: 1},
                 success: function(data){
                     if(data.code == 200){
-                        alert('新增成功');
                         window.location.reload();
+                        alert('新增成功');
                     } else {
                         alert(data.msg);
                     }
