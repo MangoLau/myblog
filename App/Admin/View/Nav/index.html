@@ -17,7 +17,6 @@
                                     <th style="width:5%;">编号</th>
                                     <th style="width:10%;">导航名</th>
                                     <th style="width:10%;">导航链接</th>
-                                    <th style="width:5%;">状态</th>
                                     <th style="width:5%;">是否显示</th>
                                     <th style="width:5%;">排序</th>
                                     <th style="width:10%;">创建时间</th>
@@ -29,20 +28,19 @@
                                 <volist name="list" id="v">
                                     <tr>
                                         <td>{$i}</td>
-                                        <td>{$v['nav_name']}</td>
+                                        <td>{$v['pad']}{$v['nav_name']}</td>
                                         <td>{$v['link']}</td>
-                                        <td><if condition="$v[status] eq 1">开启<i class="icon-ok"></i><else/>关闭<i class="icon-remove"></i></if></td>
-                                        <td><if condition="$v['display'] eq 1">显示<else/>隐藏</if></td>
+                                        <td><if condition="$v['status'] eq 1">开启<i class="icon-ok"></i><else/>关闭<i class="icon-remove"></i></if></td>
                                         <td>{$v['sort']}</td>
                                         <td>{$v['created']}</td>
                                         <td>{$v['modified']}</td>
-                                        <td><a href="{:U('addNav', array('pid' => $v['id']))}" title="增加子导航"><i class="icon-plus"></i></a>&nbsp;&nbsp;
+                                        <td>
+                                            <a href="{:U('addNav', array('pid' => $v['id']))}" title="增加子导航"><i class="icon-plus"></i></a>&nbsp;&nbsp;
                                             <a href="{:U('altNav', array('id' => $v['id']))}" title="编辑"><i class="icon-pencil"></i></a>&nbsp;&nbsp;
                                             <a href="{:U('delNav', array('id' => $v['id']))}" title="删除" onclick="if(!confirm('确定删除？')){return false;}"><i class="icon-trash"></i></a>
                                         </td>
                                     </tr>
                                 </volist>
-                                <tr><td colspan="10">{$page}</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -170,8 +168,8 @@
                 data: {cid:_cid, link:_link, nav_name: _name, type: 1},
                 success: function(data){
                     if(data.code == 200){
-                        window.location.reload();
                         alert('新增成功');
+                        window.location.reload();
                     } else {
                         alert(data.msg);
                     }
