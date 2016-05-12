@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 
-    <title>MangoLau's Blog</title>
-
+    <title>{$list['title']}</title>
+    <meta name="keyword" content="{$list['keyword']}" />
+    <meta name="description" content="{$list['description']}">
     <meta charset="UTF-8" />
-
     <link rel="stylesheet" href="__PUBLIC__/Index/css/style.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Index/css/baselist.css" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
@@ -14,16 +15,11 @@
 <div id="wrap">
     <!-- 首页内容左侧 start -->
     <div id="left">
-        <ul>
-            <volist name="newest" id="v">
-                <li>
-                    <a href="{:U('Content/baseList',array('id'=>$v['id']))}">{$v['title']}<span>{$v['created']}</span></a>
-                    <div>
-                        {:cuthtml(html_entity_decode($v['content']), 300);}
-                    </div>
-                </li>
-            </volist>
-        </ul>
+        <h1>{$list['title']}</h1>
+        <span>{$list['created']}</span>
+        <div class="content">
+            {$list['content']}
+        </div>
     </div>
     <!-- 首页内容左侧 end -->
     <!-- 首页内容右侧 start -->

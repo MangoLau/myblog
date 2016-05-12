@@ -26,20 +26,30 @@
                             </thead>
                             <tbody>
                                 <volist name="list" id="v">
+                                    <form class="altForm">
                                     <tr>
                                         <td>{$i}</td>
-                                        <td>{$v['pad']}{$v['nav_name']}</td>
-                                        <td>{$v['link']}</td>
-                                        <td><if condition="$v['status'] eq 1">开启<i class="icon-ok"></i><else/>关闭<i class="icon-remove"></i></if></td>
-                                        <td>{$v['sort']}</td>
+                                        <td>{$v['pad']}<input type="text" name="nav_name" class="nav_name" value="{$v['nav_name']}" /></td>
+                                        <td><input type="text" name="link" class="link" value="{$v['link']}" /></td>
+                                        <td>
+                                            <if condition="$v['display'] eq 1">
+                                                <input type="radio" name="display" class="display" value="1" checked />显示
+                                                <input type="radio" name="display" class="display" value="0" />隐藏
+                                                <else/>
+                                                <input type="radio" name="display" class="display" value="1" />显示
+                                                <input type="radio" name="display" class="display" value="0" checked />隐藏
+                                            </if>
+                                        </td>
+                                        <td><input type="text" name="sort" class="sort" value="{$v['sort']}" /></td>
                                         <td>{$v['created']}</td>
                                         <td>{$v['modified']}</td>
                                         <td>
                                             <a href="{:U('addNav', array('pid' => $v['id']))}" title="增加子导航"><i class="icon-plus"></i></a>&nbsp;&nbsp;
-                                            <a href="{:U('altNav', array('id' => $v['id']))}" title="编辑"><i class="icon-pencil"></i></a>&nbsp;&nbsp;
-                                            <a href="{:U('delNav', array('id' => $v['id']))}" title="删除" onclick="if(!confirm('确定删除？')){return false;}"><i class="icon-trash"></i></a>
+                                            <a data-id="{$v['id']}" class="alter" title="编辑"><i class="icon-pencil"></i></a>&nbsp;&nbsp;
+                                            <a data-id="{$v['id']}" class="delete" title="删除"><i class="icon-trash"></i></a>
                                         </td>
                                     </tr>
+                                    </form>
                                 </volist>
                             </tbody>
                         </table>
@@ -167,7 +177,7 @@
                 dataType: 'json',
                 data: {cid:_cid, link:_link, nav_name: _name, type: 1},
                 success: function(data){
-                    if(data.code == 200){
+                    if(data.success == true){
                         alert('新增成功');
                         window.location.reload();
                     } else {
@@ -175,6 +185,58 @@
                     }
                 }
             });
+        });
+
+        $('.alter').click(function(){
+            var $tr = $(this).parents('tr');
+            var _id = $(this).attr('data-id'),
+                    _nav_name = $tr.find('.nav_name').val(),
+                    _link = $tr.find('.link').val(),
+                    _display = $tr.find('input[name="display"]').val(),
+                    _sort = $tr.find('.sort').val();
+            if (_nav_name.trim() == '') {
+                alert('导航名不能为空');
+                return false;
+            }
+            if (_link.trim() == '') {
+                alert('链接不能为空');
+                return false;
+            }
+            $.ajax({
+                url: "{:U('altNav')}",
+                type: 'POST',
+                dataType: 'json',
+                data: {id:_id, nav_name:_nav_name, link:_link, display:_display, sort:_sort},
+                success: function(data){
+                    if (data.success == true) {
+                        alert('修改成功');
+                        window.location.reload();
+                    } else {
+                        alert(data.msg);
+                        return false;
+                    }
+                }
+            });
+        });
+
+        $('.delete').click(function(){
+            if(!confirm('确定删除？')){return false;}
+            var _id = $(this).attr('data-id');
+            $.ajax({
+                url: "{:U('delNav')}",
+                type: 'GET',
+                dataType: 'json',
+                data: {id:_id},
+                success: function(data){
+                    if (data.success == true) {
+                        alert('修改成功');
+                        window.location.reload();
+                    } else {
+                        alert(data.msg);
+                        return false;
+                    }
+                }
+            })
         });
     });
 </script>

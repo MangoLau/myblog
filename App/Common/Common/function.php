@@ -55,4 +55,127 @@ function indent_merge($array,$pid=0,$padnum=0,$pad='&nbsp;&nbsp;'){
     }
     return $clist;
 }
+
+/**
+ * 获取字符在字符串中第N次出现的位置
+ * @param string $text 字符串
+ * @param string $key 字符
+ * @param int $int N
+ * @return int
+ */
+function strpos_int($text, $key, $int)
+{
+    $keylen = strlen($key);
+    global $textlen;
+    if (!$textlen)
+        $textlen = strlen($text);
+    static $textpos = 0;
+    $pos = strpos($text, $key);
+    $int--;
+    if ($pos)
+    {
+        if ($int == 0)
+            $textpos+=$pos;
+        else
+            $textpos+=$pos + $keylen;
+    }
+    else
+    {
+        $int = 0;
+        $textpos = $textlen;
+    }
+    if ($int > 0)
+    {
+        strpos_int(substr($text, $pos + $keylen), $key, $int);
+    }
+    return $textpos;
+}
+
+/**
+ * 截取HTML
+ * @param string $string  HTML 字符串
+ * @param int $length 截取的长度
+ * @param string $dot
+ * @param string $append
+ * @return string
+ */
+function cuthtml($string, $length, $dot = ' ...', $append = "")
+{
+    $str = strip_tags($string);//先过滤标签
+    $new_str = iconv_substr($str, 0, $length, 'utf-8');
+    $last = iconv_substr($new_str, -1, 1, 'utf-8');
+    $sc = substr_count($new_str, $last);
+    $position = strpos_int($string, $last, $sc); //获取截取真实的长度
+    if (function_exists('tidy_parse_string'))//服务器开启tidy的话 直接用函数不全html代码即可
+    {
+        $options = array("show-body-only" => true);
+        return tidy_parse_string(mb_substr($string, 0, $position) . $dot . $append, $options, 'UTF8');
+    } else //没有开启tidy
+    {
+        if (strlen($string) <= $position)
+        {
+            return $string;
+        }
+        $pre = chr(1);
+        $end = chr(1);
+        $string = str_replace(array('&', '"', '<', '>'), array($pre . '&' . $end, $pre . '"' . $end, $pre . '<' . $end, $pre . '>' . $end), $string);
+        $strcut = '';
+        $n = $tn = $noc = 0;
+        while ($n < strlen($string))
+        {
+            $t = ord($string[$n]);
+            if ($t == 9 || $t == 10 || (32 <= $t && $t <= 126))
+            {
+                $tn = 1;
+                $n++;
+                $noc++;
+            } elseif (194 <= $t && $t <= 223)
+            {
+                $tn = 2;
+                $n += 2;
+                $noc += 2;
+            } elseif (224 <= $t && $t <= 239)
+            {
+                $tn = 3;
+                $n += 3;
+                $noc += 2;
+            } elseif (240 <= $t && $t <= 247)
+            {
+                $tn = 4;
+                $n += 4;
+                $noc += 2;
+            } elseif (248 <= $t && $t <= 251)
+            {
+                $tn = 5;
+                $n += 5;
+                $noc += 2;
+            } elseif ($t == 252 || $t == 253)
+            {
+                $tn = 6;
+                $n += 6;
+                $noc += 2;
+            } else
+            {
+                $n++;
+            }
+            if ($noc >= $position)
+            {
+                break;
+            }
+        }
+        if ($noc > $position)
+        {
+            $n -= $tn;
+        }
+        $strcut = substr($string, 0, $n);
+        $strcut = str_replace(array($pre . '&' . $end, $pre . '"' . $end, $pre . '<' . $end, $pre . '>' . $end), array('&', '"', '<', '>'), $strcut);
+        $pos = strrpos($strcut, chr(1));
+        if ($pos !== false)
+        {
+            $strcut = substr($strcut, 0, $pos);
+        }
+        return $strcut . $dot . $append;
+    }
+}
+
 ?>

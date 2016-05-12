@@ -11,6 +11,7 @@ class NavModel extends Model {
 	);
 	
 	protected $_auto = array (
+        array('display','1',self::MODEL_INSERT),
         array('created','datetime',self::MODEL_INSERT,'callback'),
         array('modified','datetime',self::MODEL_UPDATE,'callback'),
 	);
