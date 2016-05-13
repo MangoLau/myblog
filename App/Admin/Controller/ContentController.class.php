@@ -150,15 +150,15 @@ class ContentController extends CommonController {
      */
     public function searchContents() {
         $Content = M('Content');
-        if (isset($_POST['cid']) && !empty($_POST['cid'])) {
-            $where['cid'] = (int)$_POST['cid'];
-            $this->assign('cid', (int)($_POST['cid']));
+        if (isset($_GET['cid']) && !empty($_GET['cid'])) {
+            $where['cid'] = (int)$_GET['cid'];
+            $this->assign('cid', (int)($_GET['cid']));
         }
-        if (isset($_POST['status']) && !empty($_POST['status']))
+        if (isset($_GET['status']) && !empty($_GET['status']))
             $where['status'] = (int)$_POST['status'];
-        if (isset($_POST['title']) && !empty($_POST['title'])) {
-            $where['title'] = array('like', '%'.$_POST['title'].'%');
-            $this->assign('title', $_POST['title']);
+        if (isset($_GET['title']) && !empty($_GET['title'])) {
+            $where['title'] = array('like', '%'.$_GET['title'].'%');
+            $this->assign('title', $_GET['title']);
         }
 
         $count = $Content->where($where)->count();
@@ -196,4 +196,5 @@ class ContentController extends CommonController {
             $this->ajaxReturn($return);
         }
     }
+
 }

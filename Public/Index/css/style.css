@@ -13,7 +13,7 @@ img{border:none}
 #wrap #left > ul{width: 90%;margin: 0 auto;}
 #wrap #left > ul > li{margin: 20px 10px auto;border-bottom: 1px dashed #000}
 #wrap #left > ul > li > a {display: block;line-height: 28px;font-size: 18px;margin-bottom: 18px}
-#wrap #left > ul > li span{float: right}
+#wrap #left > ul > li span{margin-left: 10px;}
 #wrap #right{float: right}
 #wrap #right .wrap-link{width: 288px;border-bottom: dashed}
 #wrap #right .wrap-link > ul > li{width: 100%;overflow: hidden}

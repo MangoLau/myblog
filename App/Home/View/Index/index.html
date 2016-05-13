@@ -52,16 +52,9 @@
         <div class="wrap-link">
             <h2>随机文章</h2>
             <ul>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
+                <volist name="rands" id="v">
+                    <li><a href="{:U('Content/baseList',array('id'=>$v['id']))}">{$v['title']}</a></li>
+                </volist>
             </ul>
         </div>
         <!-- 随机文章 end -->

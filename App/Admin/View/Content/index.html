@@ -11,7 +11,7 @@
                         <h5>文章搜索</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal fom" action="{:U('searchContents')}" method="post">
+                        <form class="form-horizontal fom" action="{:U('searchContents')}" method="get">
                             <div class="control-group">
                                 <label class="control-label">类型</label>
                                 <div class="controls">
@@ -60,7 +60,6 @@
                                 <th>id</th>
                                 <th>文章</th>
                                 <th>所属类型</th>
-                                <th>状态</th>
                                 <th>创建时间</th>
                                 <th>修改时间</th>
                                 <th>操作</th>
@@ -72,7 +71,6 @@
                                     <td>{$key+1}</td>
                                     <td><a href="javascript:void(0);" class="catName" title="{$vo.title}">{$vo.title}</a></td>
                                     <td><span class="catName"><volist name="cats" id="v"><if condition="$v['id'] eq $vo['cid']">{$v['name']}</if></volist></span></td>
-                                    <td><span class="catName">{$vo.status}</span></td>
                                     <td><span class="catName">{$vo.created}</span></td>
                                     <td><span class="catName">{$vo.modified}</span></td>
                                     <td>
@@ -83,7 +81,7 @@
                                         <a class="del" href="javascript:void(0);" data-id="{$vo['id']}" title="删除" data-title="{$vo['title']}"><i class="icon-trash"></i></a></td>
                                 </tr>
                             </volist>
-                            <tr><td colspan="7">{$page}</td></tr>
+                            <tr><td colspan="6">{$page}</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -134,7 +132,7 @@
                     alert('不能缺少搜索条件');
                     return false;
                 } else {
-                    $('.fom').submit();
+                    window.location.href = "{:U('searchContents')}"+'?cid='+_cid+'&title='+_title;
                 }
             }
 

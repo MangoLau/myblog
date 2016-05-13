@@ -26,12 +26,6 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">文章简介</label>
-                                <div class="controls">
-                                    <input type="text" id="introduction" name="introduction" maxlength="256" value="{$list['introduction']}" />
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label">SEO关键词</label>
                                 <div class="controls">
                                     <input type="text" id="keyword" name="keyword" maxlength="256" value="{$list['keyword']}" placeholder="关键词之间用英文符 , 隔开" />
@@ -80,7 +74,6 @@
             $('form .sure').click(function(){
                 var _id = $('#actid').val(),
                         _title = $('#title').val(),
-                        _introduction = $('#introduction').val(),
                         _keyword = $('#keyword').val(),
                         _description = $('#description').val(),
                         _content = editor.getContent();//获取html内容
@@ -94,7 +87,7 @@
                     $.ajax({
                         type: "POST",
                         url: "{:U('Content/altContent')}",
-                        data: {id:_id,title:_title,introduction:_introduction,keyword:_keyword,description:_description,content:_content},
+                        data: {id:_id,title:_title,keyword:_keyword,description:_description,content:_content},
                         success: function(result){
                             if(result.success){
                                 alert('更新成功！');
