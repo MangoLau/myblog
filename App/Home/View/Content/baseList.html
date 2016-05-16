@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <title>{$list['title']}</title>
-    <meta name="keyword" content="{$list['keyword']}" />
-    <meta name="description" content="{$list['description']}">
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="__PUBLIC__/Index/css/style.css" />
-    <link rel="stylesheet" href="__PUBLIC__/Index/css/baselist.css" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-</head>
-<body>
-<div id="header"></div>
+<include file="Public/header" />
 <div id="wrap">
     <!-- 首页内容左侧 start -->
     <div id="left">
@@ -23,52 +10,7 @@
     </div>
     <!-- 首页内容左侧 end -->
     <!-- 首页内容右侧 start -->
-    <div id="right">
-        <!-- 新发表文章 start -->
-        <div class="wrap-link">
-            <h2>最新文章</h2>
-            <ul>
-                <volist name="newest" id="v">
-                    <li><a href="{:U('Content/baseList',array('id'=>$v['id']))}">{$v['title']}</a></li>
-                </volist>
-            </ul>
-        </div>
-        <!-- 新发表文章 end -->
-        <!-- 热点文章 start -->
-        <div class="wrap-link">
-            <h2>最热文章</h2>
-            <ul>
-                <volist id="v" name="hotest">
-                    <li><a href="{:U('Content/baseList',array('id'=>$v['id']))}">{$v['title']}</a></li>
-                </volist>
-            </ul>
-        </div>
-        <!-- 热点文章 end -->
-        <!-- 随机文章 start -->
-        <div class="wrap-link">
-            <h2>随机文章</h2>
-            <ul>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-                <li><a href="">测试测试测试测试测试测试测试测试测试</a></li>
-            </ul>
-        </div>
-        <!-- 随机文章 end -->
-    </div>
+    <include file="Public/righter" />
     <!-- 首页内容右侧 end -->
 </div>
-
-
-
-<script src="__PUBLIC__/Admin/js/jquery.min.js"></script>
-
-
-</body>
-</html>
+<include file="Public/footer" />
