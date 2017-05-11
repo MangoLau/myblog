@@ -51,6 +51,7 @@
                             <div class="form-actions">
                                 <button type="button" class="btn btn-primary sure">保存</button>
                                 <button type="reset" class="btn btn-primary">重置</button>
+								<button type="button" class="btn btn-primary" onclick="window.history.go(-1)">返回</button>
                             </div>
                         </form>
                     </div>
@@ -71,6 +72,13 @@
         var editor = UE.getEditor('container', {
             UEDITOR_HOME_URL : '__PUBLIC__/UEditor/',//为编辑器实例添加一个路径，这个不能被注释
             serverUrl : "__PUBLIC__/UEditor/php/controller.php", // 服务器统一请求接口路径
+			imageUrlPrefix : "{:C('IMAGE_URL_PREFIX')}",
+			imagePathFormat : "{:C('IMAGE_PATH_FORMAT')}",
+			scrawlPathFormat : "{:C('SCRAWL_PATH_FROMAT')}",
+			snapscreenPathFormat : "{:C('SNAPSCREEN_PATH_FORMAT')}",
+			catcherPathFormat : "{:C('CATCHER_PATH_FORMAT')}",
+			videoPathFormat : "{:C('VIDEO_PATH_FORMAT')}",
+			filePathFormat : "{:C('FILE_PATH_FORMAT')}",
             initialFrameWidth : 960,
             initialFrameHeight : 300
         });

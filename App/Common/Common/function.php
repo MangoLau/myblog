@@ -207,4 +207,132 @@ function cut_html_recursive ($element, $limit) {
     }
     return $limit;
 }
-?>
+
+/**
+ * 截取字符串
+ * @param $_string
+ * @param $_num
+ * @param $tail
+ * @return string
+ */
+function cut_str($_string,$_num,$tail=''){
+    if(mb_strlen($_string,'utf-8')>$_num){
+        $_string=mb_substr($_string,0,$_num,'utf-8').$tail;
+    }
+    return $_string;
+}
+
+/**
+ * 使用cURL发送POST请求
+ * @param string $url 请求地址
+ * @param array $post POST数据数组
+ * @param array $options HTTP选项数组
+ * @param string $error 用于返回错误信息
+ * @param int $errno 用于返回错误码
+ * @param string $httpCode 用于返回响应的HTTP状态码
+ * @return mixed 成功返回请求返回结果，失败返回flase
+ */
+function curl_post($url, $post=array(), $options=array(), &$error=false, &$errno=false, &$httpCode=false) {
+    $defaults = array(
+        CURLOPT_POST            => 1,
+        CURLOPT_HEADER          => 0,
+        CURLOPT_URL             => $url,
+        CURLOPT_FRESH_CONNECT   => 1,
+        CURLOPT_RETURNTRANSFER  => 1,
+        CURLOPT_FORBID_REUSE    => 1,
+        CURLOPT_CONNECTTIMEOUT  => 30,
+        CURLOPT_TIMEOUT         => 60,
+        CURLOPT_POSTFIELDS      => $post,
+    );
+    $ch = curl_init();
+    $result = '';
+    if($ch) {
+        foreach($options as $k=>$v) {
+            $defaults[$k] = $v;
+        }
+        curl_setopt_array($ch, $defaults);
+        $result = curl_exec($ch);
+        if($result === false) {
+            if($error !== false) {
+                $error = curl_error($ch);
+            }
+            if($errno !== false) {
+                $errno = curl_errno($ch);
+            }
+        }
+        if($httpCode !== false) {
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        }
+        curl_close($ch);
+    }
+    return $result;
+}
+
+/**
+ * 使用cURL发送GET请求
+ * @param string $url 请求地址
+ * @param array $post GET数据数组
+ * @param array $options HTTP选项数组
+ * @param string $error 用于返回错误信息
+ * @param int $errno 用于返回错误码
+ * @param string $httpCode 用于返回响应的HTTP状态码
+ * @return mixed 成功返回请求返回结果，失败返回flase
+ */
+function curl_get($url, $get=array(), $options=array(), &$error=false, &$errno=false, &$httpCode=false) {
+    $defaults = array(
+        CURLOPT_URL             => $url. (strpos($url, '?') === FALSE ? '?' : '&'). http_build_query($get),
+        CURLOPT_HEADER          => 0,
+        CURLOPT_RETURNTRANSFER  => TRUE,
+        CURLOPT_CONNECTTIMEOUT  => 5,
+        CURLOPT_TIMEOUT         => 10,
+    );
+    $ch = curl_init();
+    $result = '';
+    if($ch) {
+        foreach($options as $k=>$v) {
+            $defaults[$k] = $v;
+        }
+        curl_setopt_array($ch, $defaults);
+        
+        $result = curl_exec($ch);
+        if($result === false) {
+            if($error !== false) {
+                $error = curl_error($ch);
+            }
+            if($errno !== false) {
+                $errno = curl_errno($ch);
+            }
+        }
+        if($httpCode !== false) {
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        }
+        curl_close($ch);
+    }
+    return $result;
+}
+
+/**********************微信服务号配置start**************************/
+define('WEIXIN_TOKEN', 'boyaa');//博雅棋牌服务号
+define('SICHUAN_WEIXIN_TOKEN', 'sichuanboyaa');//博雅四川棋牌
+//define('SICHUAN_WEIXIN_TOKEN', 'qbtest');//测试
+
+/*
+ * 开发者配置
+ */
+define("WEIXIN_APPID", 'wx4e469c8099b91f2b');//博雅服务号
+define("WEIXIN_APPSECRET", 'fff701248ef2de0ee7d867ab029b0827');//博雅服务号
+
+define("SICHUAN_WEIXIN_APPID", 'wx9db7f1b320382257');//博雅四川棋牌
+/**********************微信服务号配置end**************************/
+
+
+// 应用公共文件
+function getareabyip($ip){
+	static $ipdata;
+	if( $ipdata == NULL ){
+		include_once App::$path."lib/class.ipdata.php";
+		$ipdata = new IpData(App::$path."lib/IpLocation/ipv4data.datx");
+	}
+	$ret	= $ipdata->find($ip);
+	return $ret;
+}

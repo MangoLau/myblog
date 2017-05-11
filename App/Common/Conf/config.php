@@ -26,4 +26,13 @@ return array(
     'SHOW_ERROR_MSG'        =>  true,    // 显示错误信息
     'TRACE_MAX_RECORD'      =>  100,    // 每个级别的错误信息 最大记录数
     'SHOW_PAGE_TRACE'       =>  true,
+
+	/* UEditor资源保存路径设置 */
+	'IMAGE_URL_PREFIX'		=> '', //图片访问路径前缀
+	'IMAGE_PATH_FORMAT'		=> '/Upload/image/{yyyy}/{mm}/{dd}/{time}{rand:6}', //上传图片配置项,上传保存路径,可以自定义保存路径和文件名格式
+	'SCRAWL_PATH_FROMAT'	=> '/Upload/image/{yyyy}/{mm}/{dd}/{time}{rand:6}', //涂鸦图片上传配置项,上传保存路径,可以自定义保存路径和文件名格式
+	"SNAPSCREEN_PATH_FORMAT"=> "/Upload/image/{yyyy}/{mm}/{dd}/{time}{rand:6}", // 截图工具上传,上传保存路径,可以自定义保存路径和文件名格式
+	"CATCHER_PATH_FORMAT"	=> "/Upload/image/{yyyy}/{mm}/{dd}/{time}{rand:6}", // 抓取远程图片配置,上传保存路径,可以自定义保存路径和文件名格式
+	"VIDEO_PATH_FORMAT"		=> "/Upload/video/{yyyy}/{mm}/{dd}/{time}{rand:6}", // 上传视频配置,上传保存路径,可以自定义保存路径和文件名格式
+	"FILE_PATH_FORMAT"		=> "/Upload/file/{yyyy}/{mm}/{dd}/{time}{rand:6}",  //上传文件配置,上传保存路径,可以自定义保存路径和文件名格式
 );

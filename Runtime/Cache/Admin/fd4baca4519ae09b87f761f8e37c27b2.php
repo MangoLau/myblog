@@ -32,7 +32,7 @@
                         <span class="icon">
                             <i class="icon-th"></i>
                         </span>
-                        <h5>文章列表</h5>
+                        <h5>类型列表</h5>
                     </div>
                     <div class="widget-content nopadding">
                         <table class="table table-bordered table-striped">
