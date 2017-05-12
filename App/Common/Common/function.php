@@ -330,8 +330,7 @@ define("SICHUAN_WEIXIN_APPID", 'wx9db7f1b320382257');//博雅四川棋牌
 function getareabyip($ip){
 	static $ipdata;
 	if( $ipdata == NULL ){
-		include_once App::$path."lib/class.ipdata.php";
-		$ipdata = new IpData(App::$path."lib/IpLocation/ipv4data.datx");
+		$ipdata = new \Think\Ipdata(CORE_PATH."/IpLocation/ipv4data.datx");
 	}
 	$ret	= $ipdata->find($ip);
 	return $ret;

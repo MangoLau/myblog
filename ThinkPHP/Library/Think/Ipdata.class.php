@@ -4,8 +4,10 @@
 * @author JasonChen
 * @date 2017-4-28
 */
-namespace think;
-class IpData{
+
+namespace Think;
+
+class Ipdata{
 	private $_ip     = NULL;
 	private $_fp     = NULL;
 	private $_offset = NULL;

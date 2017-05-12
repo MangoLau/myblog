@@ -1,5 +1,5 @@
 <?php
-namespace think;
+namespace Think;
 class Jssdk {
   private $appId;
   private $appSecret;
